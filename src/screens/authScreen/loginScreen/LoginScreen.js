@@ -1,4 +1,9 @@
 import React, {useEffect, useState} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
+import {userLogin} from '../../../store/auth/authActions';
+//import {logout} from '../../../store/auth/authSlice';
+import {createAction} from '@reduxjs/toolkit';
+const logout = createAction('user/logout');
 import {
   View,
   SafeAreaView,
@@ -7,6 +12,9 @@ import {
   TouchableOpacity,
 } from 'react-native';
 const LoginScreen = ({navigation}) => {
+  const {loading, userInfo, error} = useSelector(state => state.auth);
+
+  const dispatch = useDispatch();
   const [Email, setEmail] = useState('');
   const [Password, SetPassword] = useState('');
 
@@ -28,8 +36,20 @@ const LoginScreen = ({navigation}) => {
       alert('Please enter a valid email');
     } else {
       console.log('sucess!');
+      let data = {
+        email: Email,
+        password: Password,
+      };
+      dispatch(userLogin(data));
     }
   };
+  // redirect authenticated user to profile screen
+  useEffect(() => {
+    if (userInfo) {
+      alert(JSON.stringify(userInfo));
+    }
+  }, [userInfo]);
+
   return (
     <View
       style={{
@@ -107,6 +127,21 @@ const LoginScreen = ({navigation}) => {
             alignSelf: 'center',
           }}>
           <Text style={{color: 'white'}}>Login</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          onPress={() => dispatch(logout())}
+          style={{
+            backgroundColor: '#7a42f4',
+            padding: 10,
+            margin: 40,
+            width: '70%',
+            height: 40,
+            alignItems: 'center',
+            borderRadius: 25,
+            alignSelf: 'center',
+          }}>
+          <Text style={{color: 'white'}}>logout</Text>
         </TouchableOpacity>
       </View>
     </View>

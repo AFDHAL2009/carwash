@@ -1,5 +1,6 @@
 import React from 'react';
-import {Text, SafeAreaView} from 'react-native';
+import {Text, SafeAreaView, TouchableOpacity} from 'react-native';
+import {useDispatch, useSelector} from 'react-redux';
 const ProfileScreen = () => {
   return (
     <SafeAreaView>

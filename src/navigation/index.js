@@ -1,16 +1,17 @@
 import * as React from 'react';
 import {NavigationContainer, useNavigation} from '@react-navigation/native';
 import {createStackNavigator, TransitionPresets} from '@react-navigation/stack';
-import HomeScreen from '../screens/HomeScreen/HomeScreen';
-import ProfileScreen from '../screens/ProfileScreen/ProfileScreen';
 import DrawerNavigation from './DrawerNavigation';
 import AuthNavigation from './AuthNavigation';
+import {useDispatch, useSelector} from 'react-redux';
+
 const Stack = createStackNavigator();
 
 const MyStack = () => {
+  const {loading, userInfo, error} = useSelector(state => state.auth);
   return (
     <NavigationContainer>
-      <AuthNavigation />
+      {userInfo ? <DrawerNavigation /> : <AuthNavigation />}
     </NavigationContainer>
   );
 };

@@ -9,7 +9,8 @@
 import React, {useEffect} from 'react';
 import {Text, View, SafeAreaView} from 'react-native';
 import {Provider} from 'react-redux';
-import {store} from './src/store/store';
+import {store, persistor} from './src/store/store';
+import {PersistGate} from 'redux-persist/integration/react';
 import MyStack from './src/navigation/index';
 import SplashScreen from 'react-native-splash-screen';
 import OneSignal from 'react-native-onesignal';
@@ -49,7 +50,9 @@ function App() {
 
   return (
     <Provider store={store}>
-      <MyStack />
+      <PersistGate loading={null} persistor={persistor}>
+        <MyStack />
+      </PersistGate>
     </Provider>
   );
 }

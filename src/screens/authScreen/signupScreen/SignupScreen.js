@@ -1,5 +1,7 @@
 import React, {useEffect, useState} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
 import axios from 'axios';
+import {registerUser} from '../../../store/auth/authActions';
 import {
   View,
   SafeAreaView,
@@ -8,16 +10,16 @@ import {
   TextInput,
 } from 'react-native';
 import {APP_ID, API} from '../../../utils/utils';
-const test = 'bouha';
-const baseURL = 'https://jsonplaceholder.typicode.com/posts/1';
+
 const SignupScreen = () => {
+  const {loading, userInfo, error, success} = useSelector(state => state.auth);
   const [FirstName, setFistName] = useState('');
   const [LastName, setLastName] = useState('');
   const [Email, setEmail] = useState('');
   const [Password, SetPassword] = useState('');
   const [confirmPassword, SetConfirmPassword] = useState('');
   const [phone, SetPhone] = useState('');
-
+  const dispatch = useDispatch();
   const onChangeFirstName = value => {
     console.log(value);
     setFistName(value);
@@ -62,10 +64,18 @@ const SignupScreen = () => {
       alert('Passwords not same');
     } else {
       console.log('sucess!');
+      let data = {
+        firstname: FirstName,
+        lastname: LastName,
+        email: Email,
+        password: Password,
+        phone: phone,
+      };
+      dispatch(registerUser(data));
     }
   };
 
-  useEffect(() => {
+  /* useEffect(() => {
     const config = {
       headers: {
         'Content-Type': 'application/json',
@@ -89,8 +99,14 @@ const SignupScreen = () => {
         console.log(response.data);
       })
       .catch(error => console.log(error.response.data.message));
-  });
+  });*/
 
+  useEffect(() => {
+    // redirect user to login page if registration was successful
+    if (success) alert('success register');
+    // redirect authenticated user to profile screen
+    if (userInfo) alert('success get info');
+  }, [userInfo, success]);
   return (
     <View style={{flex: 1, alignItems: 'center'}}>
       <View style={{margin: 20}}>
