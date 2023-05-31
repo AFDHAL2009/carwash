@@ -9,7 +9,6 @@ const AuthNavigation = () => {
     <Stack.Navigator
       screenOptions={({route, navigation}) => ({
         gestureEnabled: true,
-        ...TransitionPresets.ModalTransition,
       })}>
       <Stack.Screen
         name="Login"

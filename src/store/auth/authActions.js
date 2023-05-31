@@ -3,7 +3,7 @@ import axios from 'axios';
 import {createAsyncThunk, createAction} from '@reduxjs/toolkit';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const backendURL = 'http://192.168.8.100:3000';
+const backendURL = 'http://192.168.43.127:3000';
 import {API} from '../../utils/utils';
 
 export const registerUser = createAsyncThunk(

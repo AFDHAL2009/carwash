@@ -154,7 +154,7 @@ const CustomSideBar = props => {
               alignItems: 'center',
             }}>
             <Image
-              source={require('../../assets/images/logo.png')}
+              source={require('../../assets/images/mapCar.png')}
               style={{width: 50, height: 50}}
             />
             <Text style={{color: 'blue', alignSelf: 'center'}}>

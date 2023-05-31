@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {userLogin} from '../../../store/auth/authActions';
-//import {logout} from '../../../store/auth/authSlice';
+import styles from './LoginScreen.styles';
 import {createAction} from '@reduxjs/toolkit';
 const logout = createAction('user/logout');
 import {
@@ -10,6 +10,7 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
+  StatusBar,
 } from 'react-native';
 const LoginScreen = ({navigation}) => {
   const {loading, userInfo, error} = useSelector(state => state.auth);
@@ -51,32 +52,14 @@ const LoginScreen = ({navigation}) => {
   }, [userInfo]);
 
   return (
-    <View
-      style={{
-        flex: 1,
-      }}>
-      <View style={{margin: 20}}>
-        <Text style={{fontSize: 22, color: 'red'}}>Welcome to</Text>
-
-        <Text style={{fontSize: 22, color: 'black'}}>CarWash application</Text>
+    <SafeAreaView style={styles.container}>
+      <View style={styles.welcomeContainer}>
+        <Text style={styles.textWelcome}>Welcome to</Text>
+        <Text style={styles.textApp}>CarWash application</Text>
       </View>
-      <View
-        style={{
-          marginTop: '20%',
-          height: '30%',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}>
+      <View style={styles.inputContainer}>
         <TextInput
-          style={{
-            borderColor: '#7a42f4',
-            borderWidth: 1,
-            borderRadius: 25,
-            height: 40,
-            width: '70%',
-            margin: 15,
-            paddingLeft: 15,
-          }}
+          style={styles.textInputEmail}
           placeholder="Enter Email"
           placeholderTextColor={'gray'}
           autoCapitalize="none"
@@ -84,16 +67,7 @@ const LoginScreen = ({navigation}) => {
           onChangeText={text => onChangeEmail(text)}
         />
         <TextInput
-          style={{
-            mode: 'outlined',
-            borderColor: '#7a42f4',
-            borderWidth: 1,
-            borderRadius: 25,
-            height: 40,
-            width: '70%',
-            margin: 15,
-            paddingLeft: 15,
-          }}
+          style={styles.textInputPassword}
           placeholder="Enter password"
           secureTextEntry={true}
           placeholderTextColor={'gray'}
@@ -102,49 +76,21 @@ const LoginScreen = ({navigation}) => {
         />
       </View>
 
-      <View style={{alignItems: 'center'}}>
+      <View style={styles.forgetPasswordContainer}>
         <TouchableOpacity onPress={() => navigation.navigate('Password')}>
-          <Text style={{textDecorationLine: 'underline', margin: 15}}>
-            Forget password?
-          </Text>
+          <Text style={styles.textButtonForget}>Forget password?</Text>
         </TouchableOpacity>
 
         <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
-          <Text style={{color: '#7a42f4'}}>Signup</Text>
+          <Text style={styles.textButtonSignup}>Signup</Text>
         </TouchableOpacity>
       </View>
       <View>
-        <TouchableOpacity
-          onPress={onPressLogin}
-          style={{
-            backgroundColor: '#7a42f4',
-            padding: 10,
-            margin: 40,
-            width: '70%',
-            height: 40,
-            alignItems: 'center',
-            borderRadius: 25,
-            alignSelf: 'center',
-          }}>
-          <Text style={{color: 'white'}}>Login</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          onPress={() => dispatch(logout())}
-          style={{
-            backgroundColor: '#7a42f4',
-            padding: 10,
-            margin: 40,
-            width: '70%',
-            height: 40,
-            alignItems: 'center',
-            borderRadius: 25,
-            alignSelf: 'center',
-          }}>
-          <Text style={{color: 'white'}}>logout</Text>
+        <TouchableOpacity onPress={onPressLogin} style={styles.buttonLogin}>
+          <Text style={styles.textButtonLogin}>Login</Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 export default LoginScreen;

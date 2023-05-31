@@ -44,19 +44,31 @@ const DrawerNavigation = () => {
       <Drawer.Screen
         name="Home"
         component={HomeStackScreen}
-        options={{title: 'Home'}}></Drawer.Screen>
+        options={{
+          headerTransparent: true,
+          headerTitle: '',
+        }}></Drawer.Screen>
       <Drawer.Screen
         name="Account"
         component={AccountStackScreen}
-        options={{title: 'Account'}}></Drawer.Screen>
+        options={{
+          headerTransparent: true,
+          headerTitle: '',
+        }}></Drawer.Screen>
       <Drawer.Screen
         name="Profile"
         component={profileScreen}
-        options={{title: 'Profile'}}></Drawer.Screen>
+        options={{
+          headerTransparent: true,
+          headerTitle: '',
+        }}></Drawer.Screen>
       <Drawer.Screen
         name="About"
         component={aboutScreen}
-        options={{title: 'About'}}></Drawer.Screen>
+        options={{
+          headerTransparent: true,
+          headerTitle: '',
+        }}></Drawer.Screen>
     </Drawer.Navigator>
   );
 };
