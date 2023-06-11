@@ -2762,6 +2762,11 @@
   dependencies:
     "webidl-conversions" "^5.0.0"
 
+"dotenv@^16.0.3":
+  "integrity" "sha512-m55RtE8AsPeJBpOIFKihEmqUcoVncQIwo7x9U8ZwLEZw9ZpXboz2c+rvog+jUaJvVrZ5kBOeYQBX5+8Aa/OZQw=="
+  "resolved" "https://registry.npmjs.org/dotenv/-/dotenv-16.1.4.tgz"
+  "version" "16.1.4"
+
 "ee-first@1.1.1":
   "integrity" "sha512-WMwm9LhRUo+WUaRN+vRuETqG89IgZphVSNkdFgeb6sS/E4OrDIN7t48CAewSHXc6C8lefD8KKfr5vY61brQlow=="
   "resolved" "https://registry.npmjs.org/ee-first/-/ee-first-1.1.1.tgz"
@@ -6003,6 +6008,13 @@
   "integrity" "sha512-JEOJY/0AzTM9grIl0BL8o/IJPIJru7k5MPj9POTE9RRezUEtgn0YSvCpTlBtG0obWgOdzg2otMz1OQvMXS0wMQ=="
   "resolved" "https://registry.npmjs.org/react-native-dialog/-/react-native-dialog-9.3.0.tgz"
   "version" "9.3.0"
+
+"react-native-dotenv@^3.4.8":
+  "integrity" "sha512-fg9F8X/cG1kDTwRLgLz3t+AMbsULoFHbUVltdQarmrJ3kNllD1Zq7ZgY85bp8BnPwk0DnYQzKbooiLsUoKd10w=="
+  "resolved" "https://registry.npmjs.org/react-native-dotenv/-/react-native-dotenv-3.4.8.tgz"
+  "version" "3.4.8"
+  dependencies:
+    "dotenv" "^16.0.3"
 
 "react-native-flatlist-slider@^1.0.6":
   "integrity" "sha512-F1C87eGIte9nfBU/MyNI6OOVKR/uCwFMrjVGv2j5u0LZjBm2WoEso96kPF2j0PIG8+XerD7Y2pmtGdCMCWxtcA=="

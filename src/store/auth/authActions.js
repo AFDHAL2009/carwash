@@ -2,9 +2,8 @@
 import axios from 'axios';
 import {createAsyncThunk, createAction} from '@reduxjs/toolkit';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
-const backendURL = 'http://192.168.43.127:3000';
-import {API} from '../../utils/utils';
+import API from '../../utils/utils';
+const backendURL = 'http://192.168.8.101:3000';
 
 export const registerUser = createAsyncThunk(
   'auth/register',
@@ -15,6 +14,7 @@ export const registerUser = createAsyncThunk(
           'Content-Type': 'application/json',
         },
       };
+
       await axios.post(
         `${backendURL}/api/auth/signup`,
         {firstname, lastname, email, password, phone},
