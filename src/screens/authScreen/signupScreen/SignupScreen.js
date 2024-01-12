@@ -10,6 +10,8 @@ import {
   TextInput,
 } from 'react-native';
 import {APP_ID, API} from '../../../utils/utils';
+import {blue100} from 'react-native-paper/lib/typescript/src/styles/themes/v2/colors';
+import {Button} from 'react-native-paper';
 
 const SignupScreen = () => {
   const {loading, userInfo, error, success} = useSelector(state => state.auth);
@@ -107,12 +109,158 @@ const SignupScreen = () => {
     // redirect authenticated user to profile screen
     if (userInfo) alert('success get info');
   }, [userInfo, success]);
+
+  const DriverInfo = () => {
+    return (
+      <View
+        style={{
+          flex: 1,
+          // backgroundColor: 'green',
+          width: '100%',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}>
+        <View
+          style={{
+            justifyContent: 'center',
+            alignItems: 'center',
+            alignContent: 'center',
+          }}>
+          <Text style={{fontFamily: 'roboto', fontSize: 22}}>
+            Driver informations
+          </Text>
+        </View>
+
+        <View style={{margin: 10, width: '80%'}}>
+          <Text>Name</Text>
+          <TextInput
+            style={{
+              backgroundColor: 'gray',
+              height: 40,
+              width: '80%',
+              borderRadius: 25,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+            placeholder="Name"
+          />
+        </View>
+        <View style={{margin: 5, width: '80%'}}>
+          <Text>LastName</Text>
+          <TextInput
+            style={{
+              backgroundColor: 'gray',
+              height: 40,
+              width: '80%',
+              borderRadius: 25,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+            placeholder="LastName"
+          />
+        </View>
+        <View style={{margin: 5, width: '80%'}}>
+          <Text>Birthday</Text>
+          <TextInput
+            style={{
+              backgroundColor: 'gray',
+              height: 40,
+              width: '80%',
+              borderRadius: 25,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+            placeholder="Birthday"
+          />
+        </View>
+        <View style={{margin: 5, width: '80%'}}>
+          <Text>Email</Text>
+          <TextInput
+            style={{
+              backgroundColor: 'gray',
+              height: 40,
+              width: '80%',
+              borderRadius: 25,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+            placeholder="Email"
+          />
+        </View>
+        <View style={{margin: 5, width: '80%'}}>
+          <Text>Password</Text>
+          <TextInput
+            style={{
+              backgroundColor: 'gray',
+              height: 40,
+              width: '80%',
+              borderRadius: 25,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+            placeholder="Password"
+          />
+        </View>
+        <View style={{margin: 5, width: '80%'}}>
+          <Text>Phone</Text>
+          <TextInput
+            style={{
+              backgroundColor: 'gray',
+              height: 40,
+              width: '80%',
+              borderRadius: 25,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+            placeholder="Phone"
+          />
+        </View>
+        <View style={{margin: 5, width: '80%'}}>
+          <Text>City</Text>
+          <TextInput
+            style={{
+              backgroundColor: 'gray',
+              height: 40,
+              width: '80%',
+              borderRadius: 25,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+            placeholder="City"
+          />
+        </View>
+        <TouchableOpacity
+          style={{
+            backgroundColor: 'red',
+            justifyContent: 'center',
+            alignItems: 'center',
+            width: '50%',
+            height: 35,
+            borderRadius: 25,
+            marginVertical: 15,
+          }}>
+          <Text>Next</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  };
+  const VehicleInfo = () => {
+    return (
+      <View style={{backgroundColor: 'blue'}}>
+        <Text>Vehicle Type</Text>
+        <Text>vehicle Model</Text>
+        <Text>manufacture Year</Text>
+        <Text>Registration Number</Text>
+      </View>
+    );
+  };
   return (
     <View style={{flex: 1, alignItems: 'center'}}>
       <View style={{margin: 20}}>
         <Text style={{fontSize: 22, color: 'black'}}>Register</Text>
       </View>
-      <View style={{margin: 10}}>
+      {DriverInfo()}
+      {/* <View style={{margin: 10}}>
         <Text style={{fontSize: 20, color: 'black'}}>
           Enter your data to register
         </Text>
@@ -236,7 +384,7 @@ const SignupScreen = () => {
           }}>
           <Text style={{color: 'white'}}>Signup</Text>
         </TouchableOpacity>
-      </View>
+      </View>**/}
     </View>
   );
 };

@@ -2,9 +2,9 @@
 import axios from 'axios';
 import {createAsyncThunk, createAction} from '@reduxjs/toolkit';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import API from '../../utils/utils';
-const backendURL = 'http://192.168.8.101:3000';
-
+import {REACT_APP_DEV_MODE, REACT_APP_PROD_MODE} from '@env';
+import {baseURL} from '../../utils/utils';
+const backendURL = REACT_APP_DEV_MODE;
 export const registerUser = createAsyncThunk(
   'auth/register',
   async ({firstname, lastname, email, password, phone}, {rejectWithValue}) => {
@@ -16,7 +16,7 @@ export const registerUser = createAsyncThunk(
       };
 
       await axios.post(
-        `${backendURL}/api/auth/signup`,
+        `${baseURL}/api/driver/register`,
         {firstname, lastname, email, password, phone},
         config,
       );
@@ -42,7 +42,7 @@ export const userLogin = createAsyncThunk(
         },
       };
       const {data} = await axios.post(
-        `${backendURL}/api/auth/login`,
+        `${baseURL}/api/driver/login`,
         {email, password},
         config,
       );

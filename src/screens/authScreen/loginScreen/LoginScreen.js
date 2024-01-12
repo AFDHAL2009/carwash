@@ -1,8 +1,18 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {userLogin} from '../../../store/auth/authActions';
 import styles from './LoginScreen.styles';
 import {createAction} from '@reduxjs/toolkit';
+import {ActivityIndicator, AppState, Linking, Platform} from 'react-native';
+import BackgroundTimer from 'react-native-background-timer';
+import {io} from 'socket.io-client';
+import {onesignalConfig} from '../../../configs/configs';
+import OneSignal from 'react-native-onesignal';
+import BackgroundService from 'react-native-background-actions';
+import PushNotification, {Importance} from 'react-native-push-notification';
+import PushNotificationIOS from '@react-native-community/push-notification-ios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 const logout = createAction('user/logout');
 import {
   View,
@@ -11,10 +21,12 @@ import {
   TextInput,
   TouchableOpacity,
   StatusBar,
+  i,
 } from 'react-native';
 const LoginScreen = ({navigation}) => {
-  const {loading, userInfo, error} = useSelector(state => state.auth);
+  const [counter, setCounter] = useState(0);
 
+  const {loading, userInfo, error} = useSelector(state => state.auth);
   const dispatch = useDispatch();
   const [Email, setEmail] = useState('');
   const [Password, SetPassword] = useState('');
@@ -28,7 +40,7 @@ const LoginScreen = ({navigation}) => {
     console.log(value);
     SetPassword(value);
   };
-  const onPressLogin = () => {
+  const onPressLogin = async () => {
     const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
     if (Email === '' || Password === '') {
@@ -46,10 +58,8 @@ const LoginScreen = ({navigation}) => {
   };
   // redirect authenticated user to profile screen
   useEffect(() => {
-    if (userInfo) {
-      alert(JSON.stringify(userInfo));
-    }
-  }, [userInfo]);
+    console.log('userInfo');
+  }, []);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -85,6 +95,13 @@ const LoginScreen = ({navigation}) => {
           <Text style={styles.textButtonSignup}>Signup</Text>
         </TouchableOpacity>
       </View>
+      {loading ? (
+        <View
+          style={{justifyContent: 'center', alignItems: 'center', margin: 10}}>
+          <ActivityIndicator color={'red'} />
+        </View>
+      ) : null}
+
       <View>
         <TouchableOpacity onPress={onPressLogin} style={styles.buttonLogin}>
           <Text style={styles.textButtonLogin}>Login</Text>
