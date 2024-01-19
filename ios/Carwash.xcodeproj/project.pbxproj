@@ -14,9 +14,11 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		39E3B3F42B5AAAD10071ECA2 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39E3B3F32B5AAAD10071ECA2 /* NotificationService.swift */; };
 		39E3B3F82B5AAAD10071ECA2 /* OneSignalNotificationServiceExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 39E3B3F12B5AAAD00071ECA2 /* OneSignalNotificationServiceExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		5D4310166A6246058984E2B4 /* Tahoma.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5FFEB80BF2F042169A192F5C /* Tahoma.ttf */; };
 		670C7D322BF205EE30E572C3 /* libPods-OneSignalNotificationServiceExtension.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 34917996AD9E4DAC3F720750 /* libPods-OneSignalNotificationServiceExtension.a */; };
 		7699B88040F8A987B510C191 /* libPods-Carwash-CarwashTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-Carwash-CarwashTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		ABC5A337285B425D9300C7B5 /* Roboto-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 44D7FC8418724381ACC71388 /* Roboto-Bold.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +53,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		00653635B2874E738D9BAAF2 /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = ../assets/fonts/FontAwesome.ttf; sourceTree = "<group>"; };
 		00E356EE1AD99517003FC87E /* CarwashTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CarwashTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* CarwashTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CarwashTests.m; sourceTree = "<group>"; };
@@ -63,19 +66,36 @@
 		19F6CBCC0A4E27FBF8BF4A61 /* libPods-Carwash-CarwashTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Carwash-CarwashTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2B4E79DF7551829276619E05 /* Pods-OneSignalNotificationServiceExtension.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OneSignalNotificationServiceExtension.release.xcconfig"; path = "Target Support Files/Pods-OneSignalNotificationServiceExtension/Pods-OneSignalNotificationServiceExtension.release.xcconfig"; sourceTree = "<group>"; };
 		34917996AD9E4DAC3F720750 /* libPods-OneSignalNotificationServiceExtension.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-OneSignalNotificationServiceExtension.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		37D19E63C5D74CF4BD876B81 /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialCommunityIcons.ttf; path = ../assets/fonts/MaterialCommunityIcons.ttf; sourceTree = "<group>"; };
+		38690B864D9D429C8088DFCE /* Feather.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Feather.ttf; path = ../assets/fonts/Feather.ttf; sourceTree = "<group>"; };
 		39E3B3EC2B5AA9E10071ECA2 /* Carwash.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = Carwash.entitlements; path = Carwash/Carwash.entitlements; sourceTree = "<group>"; };
 		39E3B3F12B5AAAD00071ECA2 /* OneSignalNotificationServiceExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = OneSignalNotificationServiceExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		39E3B3F32B5AAAD10071ECA2 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
 		39E3B3F52B5AAAD10071ECA2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		39E3B3FD2B5AAD150071ECA2 /* OneSignalNotificationServiceExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = OneSignalNotificationServiceExtension.entitlements; sourceTree = "<group>"; };
 		3B4392A12AC88292D35C810B /* Pods-Carwash.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Carwash.debug.xcconfig"; path = "Target Support Files/Pods-Carwash/Pods-Carwash.debug.xcconfig"; sourceTree = "<group>"; };
+		44D7FC8418724381ACC71388 /* Roboto-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-Bold.ttf"; path = "../assets/fonts/Roboto-Bold.ttf"; sourceTree = "<group>"; };
+		4A2DF7B2E9C6472EBA48A8D3 /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = SimpleLineIcons.ttf; path = ../assets/fonts/SimpleLineIcons.ttf; sourceTree = "<group>"; };
 		5709B34CF0A7D63546082F79 /* Pods-Carwash.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Carwash.release.xcconfig"; path = "Target Support Files/Pods-Carwash/Pods-Carwash.release.xcconfig"; sourceTree = "<group>"; };
 		5B7EB9410499542E8C5724F5 /* Pods-Carwash-CarwashTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Carwash-CarwashTests.debug.xcconfig"; path = "Target Support Files/Pods-Carwash-CarwashTests/Pods-Carwash-CarwashTests.debug.xcconfig"; sourceTree = "<group>"; };
 		5DCACB8F33CDC322A6C60F78 /* libPods-Carwash.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Carwash.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		5FFEB80BF2F042169A192F5C /* Tahoma.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Tahoma.ttf; path = ../assets/fonts/Tahoma.ttf; sourceTree = "<group>"; };
+		61913ACCAF424B83A8B8F327 /* Entypo.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Entypo.ttf; path = ../assets/fonts/Entypo.ttf; sourceTree = "<group>"; };
+		6DC2E2EEC94A4C7B9B6FB6A2 /* Octicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Octicons.ttf; path = ../assets/fonts/Octicons.ttf; sourceTree = "<group>"; };
+		7A18D2D5835043C89DAB3DAE /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = ../assets/fonts/Zocial.ttf; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = Carwash/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		82D99DE06C0144EA99F757A4 /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = ../assets/fonts/MaterialIcons.ttf; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-Carwash-CarwashTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Carwash-CarwashTests.release.xcconfig"; path = "Target Support Files/Pods-Carwash-CarwashTests/Pods-Carwash-CarwashTests.release.xcconfig"; sourceTree = "<group>"; };
 		8A6631158BD5B861032C3C42 /* Pods-OneSignalNotificationServiceExtension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OneSignalNotificationServiceExtension.debug.xcconfig"; path = "Target Support Files/Pods-OneSignalNotificationServiceExtension/Pods-OneSignalNotificationServiceExtension.debug.xcconfig"; sourceTree = "<group>"; };
+		9FAC71B7D894481AAF65AA85 /* Foundation.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Foundation.ttf; path = ../assets/fonts/Foundation.ttf; sourceTree = "<group>"; };
+		B8AAB461978742EB8E537070 /* FontAwesome5_Brands.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Brands.ttf; path = ../assets/fonts/FontAwesome5_Brands.ttf; sourceTree = "<group>"; };
+		C5E9ED92CFED4EC4B08378A5 /* FontAwesome5_Solid.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Solid.ttf; path = ../assets/fonts/FontAwesome5_Solid.ttf; sourceTree = "<group>"; };
+		CEE9512461B54C8B85B6ED28 /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = ../assets/fonts/Ionicons.ttf; sourceTree = "<group>"; };
+		D22FEE9CF1EA4DDEB0D2F156 /* FontAwesome5_Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Regular.ttf; path = ../assets/fonts/FontAwesome5_Regular.ttf; sourceTree = "<group>"; };
+		DE1F491055B44C849D032651 /* AntDesign.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = AntDesign.ttf; path = ../assets/fonts/AntDesign.ttf; sourceTree = "<group>"; };
+		DE2FFE7FB41A477EB77199B8 /* Fontisto.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Fontisto.ttf; path = ../assets/fonts/Fontisto.ttf; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+		EE4C7DAA331249ED9A0D0FD0 /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = ../assets/fonts/EvilIcons.ttf; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -137,6 +157,31 @@
 			name = Carwash;
 			sourceTree = "<group>";
 		};
+		23174DA70B0340F19E4BCFA5 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				DE1F491055B44C849D032651 /* AntDesign.ttf */,
+				61913ACCAF424B83A8B8F327 /* Entypo.ttf */,
+				EE4C7DAA331249ED9A0D0FD0 /* EvilIcons.ttf */,
+				38690B864D9D429C8088DFCE /* Feather.ttf */,
+				00653635B2874E738D9BAAF2 /* FontAwesome.ttf */,
+				B8AAB461978742EB8E537070 /* FontAwesome5_Brands.ttf */,
+				D22FEE9CF1EA4DDEB0D2F156 /* FontAwesome5_Regular.ttf */,
+				C5E9ED92CFED4EC4B08378A5 /* FontAwesome5_Solid.ttf */,
+				DE2FFE7FB41A477EB77199B8 /* Fontisto.ttf */,
+				9FAC71B7D894481AAF65AA85 /* Foundation.ttf */,
+				CEE9512461B54C8B85B6ED28 /* Ionicons.ttf */,
+				37D19E63C5D74CF4BD876B81 /* MaterialCommunityIcons.ttf */,
+				82D99DE06C0144EA99F757A4 /* MaterialIcons.ttf */,
+				6DC2E2EEC94A4C7B9B6FB6A2 /* Octicons.ttf */,
+				44D7FC8418724381ACC71388 /* Roboto-Bold.ttf */,
+				4A2DF7B2E9C6472EBA48A8D3 /* SimpleLineIcons.ttf */,
+				5FFEB80BF2F042169A192F5C /* Tahoma.ttf */,
+				7A18D2D5835043C89DAB3DAE /* Zocial.ttf */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -175,6 +220,7 @@
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				BBD78D7AC51CEA395F1C20DB /* Pods */,
+				23174DA70B0340F19E4BCFA5 /* Resources */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -325,6 +371,8 @@
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				ABC5A337285B425D9300C7B5 /* Roboto-Bold.ttf in Resources */,
+				5D4310166A6246058984E2B4 /* Tahoma.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -126,7 +126,7 @@ const SignupScreen = () => {
             alignItems: 'center',
             alignContent: 'center',
           }}>
-          <Text style={{fontFamily: 'roboto', fontSize: 22}}>
+          <Text style={{fontFamily: 'Roboto-Bold', fontSize: 22}}>
             Driver informations
           </Text>
         </View>
