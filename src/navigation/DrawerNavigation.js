@@ -1,10 +1,10 @@
 import React from 'react';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import {createStackNavigator} from '@react-navigation/stack';
-import profileScreen from '../screens/profileScreen/ProfileScreen';
-import aboutScreen from '../screens/aboutScreen/AboutScreen';
-import homeScreen from '../screens/homeScreen/HomeScreen';
-import accountScreen from '../screens/accountScreen/AccountScreen';
+import ProfileScreen from '../screens/ProfileScreen/ProfileScreen';
+import AboutScreen from '../screens/aboutScreen/AboutScreen';
+import HomeScreen from '../screens/HomeScreen/HomeScreen';
+import AccountScreen from '../screens/accountScreen/AccountScreen';
 import CustomSideBar from './customSideBar/CustomSideBar';
 
 const Drawer = createDrawerNavigator();
@@ -16,7 +16,7 @@ const HomeStackScreen = () => {
     <homeStack.Navigator>
       <homeStack.Screen
         name="home"
-        component={homeScreen}
+        component={HomeScreen}
         options={{
           headerTransparent: true,
           headerTitle: '',
@@ -30,7 +30,7 @@ const AccountStackScreen = () => {
     <accountStack.Navigator>
       <accountStack.Screen
         name="account"
-        component={accountScreen}
+        component={AccountScreen}
         options={{
           headerTransparent: true,
           headerTitle: '',
@@ -57,14 +57,14 @@ const DrawerNavigation = () => {
         }}></Drawer.Screen>
       <Drawer.Screen
         name="Profile"
-        component={profileScreen}
+        component={ProfileScreen}
         options={{
           headerTransparent: true,
           headerTitle: '',
         }}></Drawer.Screen>
       <Drawer.Screen
         name="About"
-        component={aboutScreen}
+        component={AboutScreen}
         options={{
           headerTransparent: true,
           headerTitle: '',

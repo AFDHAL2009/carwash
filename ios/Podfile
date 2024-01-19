@@ -1,13 +1,18 @@
 require_relative '../node_modules/react-native/scripts/react_native_pods'
 require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
 
-platform :ios, '12.4'
+platform :ios, '13'
 install! 'cocoapods', :deterministic_uuids => false
 
 target 'Carwash' do
+  permissions_path = '../node_modules/react-native-permissions/ios'
+  pod 'Permission-Contacts', :path => "#{permissions_path}/Contacts/Permission-Contacts.podspec"
+  pod 'Permission-Microphone', :path => "#{permissions_path}/Microphone/Permission-Microphone.podspec"
+  pod 'Permission-Notifications', :path => "#{permissions_path}/Notifications/Permission-Notifications.podspec"
   config = use_native_modules!
 
   # Flags change depending on the env values.
+  
   flags = get_default_flags()
 
   use_react_native!(
@@ -25,7 +30,7 @@ target 'Carwash' do
     # An absolute path to your application root.
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
-
+ 
   target 'CarwashTests' do
     inherit! :complete
     # Pods for testing
@@ -40,4 +45,9 @@ target 'Carwash' do
     )
     __apply_Xcode_12_5_M1_post_install_workaround(installer)
   end
+end
+
+
+target 'OneSignalNotificationServiceExtension' do
+  pod 'OneSignal', '>= 3.0', '< 4.0'
 end
