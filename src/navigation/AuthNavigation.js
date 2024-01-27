@@ -1,8 +1,8 @@
 import React from 'react';
 import {createStackNavigator, TransitionPresets} from '@react-navigation/stack';
-import LoginScreen from '../screens/authScreen/loginScreen/LoginScreen';
-import SignupScreen from '../screens/authScreen/signupScreen/SignupScreen';
-import ForgetPasswordScreen from '../screens/authScreen/forgetPasswordScreen/ForgetPasswordScreen';
+import Login from '../screens/login/login';
+import Register from '../screens/register/register';
+import ForgetPassword from '../screens/forget-password/forget-password';
 const Stack = createStackNavigator();
 const AuthNavigation = () => {
   return (
@@ -12,7 +12,7 @@ const AuthNavigation = () => {
       })}>
       <Stack.Screen
         name="Login"
-        component={LoginScreen}
+        component={Login}
         options={{
           headerTransparent: true,
           headerTitle: '',
@@ -20,7 +20,7 @@ const AuthNavigation = () => {
       />
       <Stack.Screen
         name="Signup"
-        component={SignupScreen}
+        component={Register}
         options={{
           headerTransparent: true,
           headerTitle: '',
@@ -28,7 +28,7 @@ const AuthNavigation = () => {
       />
       <Stack.Screen
         name="Password"
-        component={ForgetPasswordScreen}
+        component={ForgetPassword}
         options={{
           headerTransparent: true,
           headerTitle: '',

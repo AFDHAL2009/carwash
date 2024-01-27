@@ -8,21 +8,21 @@ import {
   Dimensions,
 } from 'react-native';
 import {Input, Icon} from '@rneui/themed';
-import styles from './ForgetPasswordScreen.styles';
+import styles from './forget-password.styles';
 import {Formik} from 'formik';
 //import BottomSheet from 'react-native-simple-bottom-sheet';
 //import BottomSheet from 'react-native-smooth-bottomsheet';
 //import {Modalize} from 'react-native-modalize';
 import BottomSheet, {
   BottomSheetRefProps,
-} from '../../../components/bottomSheet/BottomSheet';
+} from '../../components/bottomSheet/BottomSheet';
 
 import {
   GestureHandlerRootView,
   ScrollView,
   FlatList,
 } from 'react-native-gesture-handler';
-const ForgetPasswordScreen = () => {
+const ForgetPassword= () => {
   const inputRef = useRef();
   const panelRef = useRef(null);
   const bottomRef = useRef(null);
@@ -156,4 +156,4 @@ const ForgetPasswordScreen = () => {
     </GestureHandlerRootView>
   );
 };
-export default ForgetPasswordScreen;
+export default ForgetPassword;

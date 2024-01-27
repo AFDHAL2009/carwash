@@ -1,37 +1,33 @@
 import {View, StyleSheet, Platform, StatusBar} from 'react-native';
-import Colors from '../../../utils/colors';
-
+import Colors from '../../utils/colors';
+import {ColorSpace} from 'react-native-reanimated';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    alignItems: 'center',
     paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
   },
 
-  welcomeContainer: {
+  subContainer: {
     margin: 20,
   },
-  textWelcome: {
+  textTitle: {
     fontFamily: 'Roboto',
-    fontSize: 20,
-    color: Colors.RED,
-  },
-  textApp: {
-    fontFamily: 'Roboto',
-    fontSize: 20,
+    fontSize: 22,
     color: Colors.BLACK,
   },
+
   inputContainer: {
-    marginTop: '20%',
-    height: '30%',
-    justifyContent: 'center',
+    margin: 40,
+    width: '90%',
     alignItems: 'center',
   },
   textInputEmail: {
-    borderColor: Colors.PURPLE,
+    borderColor: '#7a42f4',
     borderWidth: 1,
     borderRadius: 25,
     height: 40,
-    width: '70%',
+    width: '80%',
     margin: 15,
     paddingLeft: 15,
   },
@@ -45,27 +41,23 @@ const styles = StyleSheet.create({
     margin: 15,
     paddingLeft: 15,
   },
-  forgetPasswordContainer: {
-    alignItems: 'center',
+
+  buttonNextContainer: {
+    flex: 1,
+    width: '50%',
   },
-  textButtonForget: {
-    textDecorationLine: 'underline',
-    margin: 15,
-  },
-  textButtonSignup: {
-    color: Colors.PURPLE,
-  },
-  buttonLogin: {
-    backgroundColor: Colors.PURPLE,
+  buttonNext: {
+    backgroundColor: '#7a42f4',
     padding: 10,
     margin: 40,
-    width: '70%',
+    width: '80%',
     height: 40,
     alignItems: 'center',
     borderRadius: 25,
     alignSelf: 'center',
   },
-  textButtonLogin: {
+
+  textButtonNext: {
     color: Colors.WHITE,
   },
 });

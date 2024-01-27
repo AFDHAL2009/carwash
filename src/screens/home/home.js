@@ -23,7 +23,7 @@ const source_data = [
   {id: 2, date: '11/10/2021', reference: 'ND151480', phone: '0622112525'},
   {id: 3, date: '11/10/2022', reference: 'ND151920', phone: '0622112524'},
 ];
-const HomeScreen = () => {
+const Home = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [notif, setNotif] = useState({});
   const {loading, userInfo, error} = useSelector(state => state.auth);
@@ -269,4 +269,4 @@ const HomeScreen = () => {
   );
 };
 
-export default HomeScreen;
+export default Home;

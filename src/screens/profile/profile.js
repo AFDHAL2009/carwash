@@ -1,7 +1,7 @@
 import React from 'react';
 import {Text, SafeAreaView, TouchableOpacity} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
-const ProfileScreen = () => {
+const Profile = () => {
   return (
     <SafeAreaView>
       <Text>Profile screen</Text>
@@ -9,4 +9,4 @@ const ProfileScreen = () => {
   );
 };
 
-export default ProfileScreen;
+export default Profile;

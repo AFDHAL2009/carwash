@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import axios from 'axios';
-import {registerUser} from '../../../store/auth/authActions';
+import {registerUser} from '../../store/auth/authActions';
 import {
   View,
   SafeAreaView,
@@ -13,7 +13,7 @@ import {APP_ID, API} from '../../../utils/utils';
 import {blue100} from 'react-native-paper/lib/typescript/src/styles/themes/v2/colors';
 import {Button} from 'react-native-paper';
 
-const SignupScreen = () => {
+const Register = () => {
   const {loading, userInfo, error, success} = useSelector(state => state.auth);
   const [FirstName, setFistName] = useState('');
   const [LastName, setLastName] = useState('');
@@ -388,4 +388,4 @@ const SignupScreen = () => {
     </View>
   );
 };
-export default SignupScreen;
+export default Register;

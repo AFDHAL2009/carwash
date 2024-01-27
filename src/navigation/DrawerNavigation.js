@@ -1,11 +1,12 @@
 import React from 'react';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import {createStackNavigator} from '@react-navigation/stack';
-import ProfileScreen from '../screens/ProfileScreen/ProfileScreen';
-import AboutScreen from '../screens/aboutScreen/AboutScreen';
-import HomeScreen from '../screens/HomeScreen/HomeScreen';
-import AccountScreen from '../screens/accountScreen/AccountScreen';
 import CustomSideBar from './customSideBar/CustomSideBar';
+import Profile from '../screens/profile/profile';
+import About from '../screens/about/about';
+import Home from '../screens/home/home';
+import Account from '../screens/account/account';
+
 
 const Drawer = createDrawerNavigator();
 const homeStack = createStackNavigator();
@@ -16,7 +17,7 @@ const HomeStackScreen = () => {
     <homeStack.Navigator>
       <homeStack.Screen
         name="home"
-        component={HomeScreen}
+        component={Home}
         options={{
           headerTransparent: true,
           headerTitle: '',
@@ -30,7 +31,7 @@ const AccountStackScreen = () => {
     <accountStack.Navigator>
       <accountStack.Screen
         name="account"
-        component={AccountScreen}
+        component={Account}
         options={{
           headerTransparent: true,
           headerTitle: '',
@@ -43,7 +44,7 @@ const DrawerNavigation = () => {
     <Drawer.Navigator drawerContent={props => <CustomSideBar {...props} />}>
       <Drawer.Screen
         name="Home"
-        component={HomeStackScreen}
+        component={Home}
         options={{
           headerTransparent: true,
           headerTitle: '',
@@ -57,14 +58,14 @@ const DrawerNavigation = () => {
         }}></Drawer.Screen>
       <Drawer.Screen
         name="Profile"
-        component={ProfileScreen}
+        component={Profile}
         options={{
           headerTransparent: true,
           headerTitle: '',
         }}></Drawer.Screen>
       <Drawer.Screen
         name="About"
-        component={AboutScreen}
+        component={About}
         options={{
           headerTransparent: true,
           headerTitle: '',

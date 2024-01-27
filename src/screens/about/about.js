@@ -1,11 +1,11 @@
 import React from 'react';
 import {View, Text, SafeAreaView} from 'react-native';
-const AboutScreen = () => {
+const About= () => {
   return (
     <SafeAreaView>
-      <Text>AboutScreen</Text>
+      <Text>About</Text>
     </SafeAreaView>
   );
 };
 
-export default AboutScreen;
+export default About;
