@@ -329,10 +329,6 @@ PODS:
   - React-jsinspector (0.70.6)
   - React-logger (0.70.6):
     - glog
-  - react-native-background-actions (3.0.0):
-    - React-Core
-  - react-native-background-timer (2.4.1):
-    - React-Core
   - react-native-maps (1.3.2):
     - React-Core
   - react-native-notifications (5.1.0):
@@ -434,6 +430,8 @@ PODS:
   - RNDeviceInfo (10.3.0):
     - React-Core
   - RNGestureHandler (2.9.0):
+    - React-Core
+  - RNKeychain (8.1.2):
     - React-Core
   - RNNotifee (7.8.0):
     - React-Core
@@ -566,8 +564,6 @@ DEPENDENCIES:
   - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - React-logger (from `../node_modules/react-native/ReactCommon/logger`)
-  - react-native-background-actions (from `../node_modules/react-native-background-actions`)
-  - react-native-background-timer (from `../node_modules/react-native-background-timer`)
   - react-native-maps (from `../node_modules/react-native-maps`)
   - react-native-notifications (from `../node_modules/react-native-notifications`)
   - react-native-onesignal (from `../node_modules/react-native-onesignal`)
@@ -595,6 +591,7 @@ DEPENDENCIES:
   - "RNDateTimePicker (from `../node_modules/@react-native-community/datetimepicker`)"
   - RNDeviceInfo (from `../node_modules/react-native-device-info`)
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
+  - RNKeychain (from `../node_modules/react-native-keychain`)
   - "RNNotifee (from `../node_modules/@notifee/react-native`)"
   - RNPermissions (from `../node_modules/react-native-permissions`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
@@ -681,10 +678,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/jsinspector"
   React-logger:
     :path: "../node_modules/react-native/ReactCommon/logger"
-  react-native-background-actions:
-    :path: "../node_modules/react-native-background-actions"
-  react-native-background-timer:
-    :path: "../node_modules/react-native-background-timer"
   react-native-maps:
     :path: "../node_modules/react-native-maps"
   react-native-notifications:
@@ -739,6 +732,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-device-info"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
+  RNKeychain:
+    :path: "../node_modules/react-native-keychain"
   RNNotifee:
     :path: "../node_modules/@notifee/react-native"
   RNPermissions:
@@ -795,8 +790,6 @@ SPEC CHECKSUMS:
   React-jsiexecutor: b4a65947391c658450151275aa406f2b8263178f
   React-jsinspector: 60769e5a0a6d4b32294a2456077f59d0266f9a8b
   React-logger: 1623c216abaa88974afce404dc8f479406bbc3a0
-  react-native-background-actions: 30c71460dd98a2aaae31f6f5c87546dd243b8921
-  react-native-background-timer: 17ea5e06803401a379ebf1f20505b793ac44d0fe
   react-native-maps: 085f614cf14d3637b2048bb9752da5b1c27c2886
   react-native-notifications: 4601a5a8db4ced6ae7cfc43b44d35fe437ac50c4
   react-native-onesignal: 7bd44dbd031d8d57110c0203836ffc37ddead526
@@ -824,6 +817,7 @@ SPEC CHECKSUMS:
   RNDateTimePicker: 0530a73a6f3a1a85814cbde0802736993b9e675e
   RNDeviceInfo: 4701f0bf2a06b34654745053db0ce4cb0c53ada7
   RNGestureHandler: 071d7a9ad81e8b83fe7663b303d132406a7d8f39
+  RNKeychain: a65256b6ca6ba6976132cc4124b238a5b13b3d9c
   RNNotifee: f3c01b391dd8e98e67f539f9a35a9cbcd3bae744
   RNPermissions: dcdb7b99796bbeda6975a6e79ad519c41b251b1c
   RNReanimated: 0a5f87ec1da472cca3e835333fdebe51d983c411
@@ -842,6 +836,6 @@ SPEC CHECKSUMS:
   Yoga: 99caf8d5ab45e9d637ee6e0174ec16fbbb01bcfc
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: 162ccb6393cb4fc7423dfecdcebd433ef24c5b42
+PODFILE CHECKSUM: b4d2edfebd585ace3aba60d3bad27772fd4803b5
 
 COCOAPODS: 1.14.3
