@@ -6,7 +6,7 @@ import Profile from '../screens/profile/profile';
 import About from '../screens/about/about';
 import Home from '../screens/home/home';
 import Account from '../screens/account/account';
-
+import Missions from '../screens/missions/missions';
 
 const Drawer = createDrawerNavigator();
 const homeStack = createStackNavigator();
@@ -59,6 +59,13 @@ const DrawerNavigation = () => {
       <Drawer.Screen
         name="Profile"
         component={Profile}
+        options={{
+          headerTransparent: true,
+          headerTitle: '',
+        }}></Drawer.Screen>
+          <Drawer.Screen
+        name="Missions"
+        component={Missions}
         options={{
           headerTransparent: true,
           headerTitle: '',

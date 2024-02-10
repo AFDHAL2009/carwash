@@ -27,7 +27,7 @@ const CustomSideBar = props => {
     <View style={{flex: 1}}>
       <Ionicons.Button
         name="close"
-        size={25}
+        size={40}
         color="black"
         backgroundColor="white"
         underlayColor="transparent"
@@ -126,6 +126,23 @@ const CustomSideBar = props => {
                 )}
                 onPress={() => {
                   props.navigation.navigate('Profile');
+                }}
+              />
+               <DrawerItem
+                label={() => (
+                  <View
+                    style={{
+                      flexDirection: 'column',
+                      // backgroundColor: 'blue',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    }}>
+                    <Icon name="car" color={'blue'} size={30} />
+                    <Text>Missions</Text>
+                  </View>
+                )}
+                onPress={() => {
+                  props.navigation.navigate('Missions');
                 }}
               />
               <DrawerItem
