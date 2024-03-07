@@ -1,6 +1,5 @@
 import React, {useEffect, useState, useRef} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {userLogin} from '../../store/auth/authActions';
 import styles from './login.styles';
 import {createAction} from '@reduxjs/toolkit';
 import {ActivityIndicator, AppState, Linking, Platform} from 'react-native';
@@ -10,80 +9,135 @@ import OneSignal from 'react-native-onesignal';
 import PushNotification, {Importance} from 'react-native-push-notification';
 import PushNotificationIOS from '@react-native-community/push-notification-ios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+//import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {TextInput} from 'react-native-paper';
+import {Formik} from 'formik';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {Input, Button} from '@rneui/themed';
 import * as Keychain from 'react-native-keychain';
+import * as yup from 'yup';
+import Modal from 'react-native-modal';
+import DateTimePicker from '@react-native-community/datetimepicker';
 const logout = createAction('user/logout');
 import {
   View,
   SafeAreaView,
   Text,
-  TextInput,
+  // TextInput,
   TouchableOpacity,
   StatusBar,
-  i,
 } from 'react-native';
-const Login= ({navigation}) => {
+import {
+  useAuthMutation,
+  useGetMissionsQuery,
+  useGetProfileMutation,
+} from '../../store/slices/apiSlice';
+import {logIn, logOut} from '../../store/slices/authSlice';
+import {store} from '../../store/store';
+
+const Login = ({navigation}) => {
   const [counter, setCounter] = useState(0);
-  const {loading, userInfo, error} = useSelector(state => state.auth);
+  const [date, setDate] = useState(new Date(1598051730000));
+  // const {loading, userInfo, error} = useSelector(state => state.auth);
   const dispatch = useDispatch();
   const [Email, setEmail] = useState('');
-  const [Password, SetPassword] = useState('');
+  const [Password, setPassword] = useState('');
+  const [visiblePassword, setVisiblePassword] = useState(true);
+  const [isEmailValid, setIsEmailValid] = useState(true);
+  const [isPasswordValid, setIsPasswordValid] = useState(true);
+  // console.log(store.getState());
+  const [show, setShow] = useState(false);
+  const passwordChange = () => {
+    setVisiblePassword(!visiblePassword);
+  };
 
   const username = 'zuck';
   const password = 'poniesRgr8';
 
   // Store the credentials
-  const setKeyChain=async()=>{
-   await Keychain.setGenericPassword(username, password);
-  }
- 
-const getKeyChain=async()=>{
-  try {
-    // Retrieve the credentials
-    const credentials = await Keychain.getGenericPassword();
-    if (credentials) {
-      console.log(
-        'Credentials successfully loaded for user ' + credentials.username
-      );
-    } else {
-      console.log('No credentials stored');
+  const setKeyChain = async () => {
+    await Keychain.setGenericPassword(username, password);
+  };
+
+  const getKeyChain = async () => {
+    try {
+      // Retrieve the credentials
+      const credentials = await Keychain.getGenericPassword();
+      if (credentials) {
+        console.log(
+          'Credentials successfully loaded for user ' + credentials.username,
+        );
+      } else {
+        console.log('No credentials stored');
+      }
+    } catch (error) {
+      console.log("Keychain couldn't be accessed!", error);
     }
-  } catch (error) {
-    console.log("Keychain couldn't be accessed!", error);
-  }
-}
-
-  const onChangeEmail = value => {
-    console.log(value);
-    setEmail(value);
   };
 
-  const onChangePassword = value => {
-    console.log(value);
-    SetPassword(value);
-  };
   const onPressLogin = async () => {
     setKeyChain();
     const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-
-    if (Email === '' || Password === '') {
-      alert('Please enter your credential!');
+    if (Email === '') {
+      setIsEmailValid(false);
+    } else if (Password === '') {
+      setIsPasswordValid(false);
     } else if (!emailRegex.test(Email)) {
-      alert('Please enter a valid email');
+      setIsEmailValid(false);
     } else {
+      setIsEmailValid(true);
+      setIsPasswordValid(true);
       console.log('sucess!');
       let data = {
         email: Email,
         password: Password,
       };
-      dispatch(userLogin(data));
+
+      login(data);
     }
   };
-  // redirect authenticated user to profile screen
+
+  const onPressLogin1 = data => {
+    setKeyChain();
+
+    login(data);
+  };
+
   useEffect(() => {
     console.log('userInfo');
     getKeyChain();
   }, []);
+  const [
+    login,
+    {
+      isLoading: loginIsLoading,
+      isError: loginIsError,
+      isSuccess: loginIsSuccess,
+      data: loginData,
+      error: loginError,
+    },
+  ] = useAuthMutation();
+  useEffect(() => {
+    if (loginData) {
+      dispatch(logIn(loginData));
+    }
+  }, [loginData, loginIsSuccess, loginError]);
 
+  useEffect(() => {
+    if (loginError) {
+      alert(loginError.data?.message);
+    }
+  }, [loginIsError]);
+  const loginValidationSchema = yup.object().shape({
+    email: yup
+      .string()
+      .email('Please enter valid email')
+      .required('Email Address is Required'),
+    password: yup
+      .string()
+      .min(8, ({min}) => `Password must be at least ${min} characters`)
+      .required('Password is required'),
+  });
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.welcomeContainer}>
@@ -91,44 +145,105 @@ const getKeyChain=async()=>{
         <Text style={styles.textApp}>CarWash application</Text>
       </View>
       <View style={styles.inputContainer}>
-        <TextInput
-          style={styles.textInputEmail}
-          placeholder="Enter Email"
-          placeholderTextColor={'gray'}
-          autoCapitalize="none"
-          keyboardType="email-address"
-          onChangeText={text => onChangeEmail(text)}
-        />
-        <TextInput
-          style={styles.textInputPassword}
-          placeholder="Enter password"
-          secureTextEntry={true}
-          placeholderTextColor={'gray'}
-          autoCapitalize="none"
-          onChangeText={text => onChangePassword(text)}
-        />
-      </View>
+        <Formik
+          validationSchema={loginValidationSchema}
+          initialValues={{email: '', password: ''}}
+          onSubmit={values => {
+            console.log(values);
+            onPressLogin1(values);
+          }}>
+          {({
+            handleChange,
+            handleBlur,
+            handleSubmit,
+            values,
+            errors,
+            touched,
+            isValid,
+          }) => (
+            <>
+              <Input
+                name="email"
+                placeholder="Email"
+                containerStyle={{width: '90%'}}
+                labelStyle={{color: 'black', marginTop: -5}}
+                errorStyle={{}}
+                inputContainerStyle={styles.inputStyle}
+                inputStyle={{
+                  fontSize: 16,
+                }}
+                // renderErrorMessage={isEmailValid}
+                // errorMessage={!isEmailValid ? 'Email required or not valid!' : ''}
+                autoCapitalize="none"
+                autoCorrect={false}
+                onChangeText={handleChange('email')}
+                onBlur={handleBlur('email')}
+                value={values.email}
+                keyboardType="email-address"
+              />
+              {errors.email && touched.email && (
+                <Text style={styles.errorText}>{errors.email}</Text>
+              )}
+              <Input
+                name="password"
+                placeholder="Password"
+                onChangeText={handleChange('password')}
+                onBlur={handleBlur('password')}
+                value={values.password}
+                containerStyle={{width: '90%'}}
+                labelStyle={{color: 'black', marginTop: -5}}
+                errorStyle={{}}
+                inputContainerStyle={styles.inputStyle}
+                inputStyle={{
+                  fontSize: 16,
+                }}
+                // renderErrorMessage={isPasswordValid}
+                // errorMessage={!isPasswordValid ? 'Password is required' : ''}
+                autoCapitalize="none"
+                autoCorrect={false}
+                rightIcon={() => (
+                  <TouchableOpacity
+                    onPress={() => {
+                      passwordChange();
+                    }}>
+                    <Icon
+                      name={visiblePassword ? 'eye-off' : 'eye'}
+                      size={25}
+                    />
+                  </TouchableOpacity>
+                )}
+                maxLength={27}
+                secureTextEntry={visiblePassword}
+              />
+              {errors.password && touched.password && (
+                <Text style={styles.errorText}>{errors.password}</Text>
+              )}
 
-      <View style={styles.forgetPasswordContainer}>
-        <TouchableOpacity onPress={() => navigation.navigate('Password')}>
-          <Text style={styles.textButtonForget}>Forget password?</Text>
-        </TouchableOpacity>
+              <View style={styles.forgetPasswordContainer}>
+                <TouchableOpacity
+                  onPress={() => navigation.navigate('Password')}>
+                  <Text style={styles.textButtonForget}>Forget password?</Text>
+                </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
-          <Text style={styles.textButtonSignup}>Signup</Text>
-        </TouchableOpacity>
-      </View>
-      {loading ? (
-        <View
-          style={{justifyContent: 'center', alignItems: 'center', margin: 10}}>
-          <ActivityIndicator color={'red'} />
-        </View>
-      ) : null}
-
-      <View>
-        <TouchableOpacity onPress={onPressLogin} style={styles.buttonLogin}>
-          <Text style={styles.textButtonLogin}>Login</Text>
-        </TouchableOpacity>
+                <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
+                  <Text style={styles.textButtonSignup}>Signup</Text>
+                </TouchableOpacity>
+              </View>
+              {loginIsLoading ? (
+                <View style={styles.inputContainer}>
+                  <ActivityIndicator color={'red'} />
+                </View>
+              ) : null}
+              <View style={{width: '100%'}}>
+                <TouchableOpacity
+                  onPress={handleSubmit}
+                  style={styles.buttonLogin}>
+                  <Text style={styles.textButtonLogin}>Sign in</Text>
+                </TouchableOpacity>
+              </View>
+            </>
+          )}
+        </Formik>
       </View>
     </SafeAreaView>
   );

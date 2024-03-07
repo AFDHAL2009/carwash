@@ -47,6 +47,11 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     paddingHorizontal: 16,
   },
+  infoContainer: {
+    flexDirection: 'column',
+    marginLeft: 15,
+    alignContent: 'center',
+  },
 });
 
 export default styles;

@@ -8,10 +8,11 @@ import {useDispatch, useSelector} from 'react-redux';
 const Stack = createStackNavigator();
 
 const MyStack = () => {
-  const {loading, userInfo, error} = useSelector(state => state.auth);
+  //const {loading, userInfo, error} = useSelector(state => state.auth);
+  const {isLoggedIn} = useSelector(state => state.auth);
   return (
     <NavigationContainer>
-      {userInfo ? <DrawerNavigation /> : <AuthNavigation />}
+      {isLoggedIn ? <DrawerNavigation /> : <AuthNavigation />}
     </NavigationContainer>
   );
 };

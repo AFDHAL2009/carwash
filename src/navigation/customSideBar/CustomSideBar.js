@@ -19,10 +19,12 @@ import styles from './CustomSideBar.styles';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useDispatch, useSelector} from 'react-redux';
-import {userLogout} from '../../store/auth/authActions';
+import {userLogout1} from '../../store/slices/authSlice';
+
 const CustomSideBar = props => {
   const dispatch = useDispatch();
   const [userImgUrl, setUserImgUrl] = useState(null);
+  const {userDetails} = useSelector(state => state.auth);
   return (
     <View style={{flex: 1}}>
       <Ionicons.Button
@@ -58,16 +60,11 @@ const CustomSideBar = props => {
                 />
               )}
 
-              <View
-                style={{
-                  flexDirection: 'column',
-                  marginLeft: 15,
-                  alignContent: 'center',
-                }}>
+              <View style={styles.infoContainer}>
                 <Title style={styles.title}>
-                  {'firstName'} {'lastName'}
+                  {userDetails?.lastName} {userDetails?.firstName}
                 </Title>
-                <Title style={styles.email}>{'email'}</Title>
+                <Title style={styles.email}>{userDetails?.email}</Title>
               </View>
             </View>
             <View style={styles.row}></View>
@@ -128,7 +125,7 @@ const CustomSideBar = props => {
                   props.navigation.navigate('Profile');
                 }}
               />
-               <DrawerItem
+              <DrawerItem
                 label={() => (
                   <View
                     style={{
@@ -188,7 +185,7 @@ const CustomSideBar = props => {
           label={() => <Text style={{color: 'red'}}>Sign Out</Text>}
           onPress={() => {
             Alert.alert('Déconnexion', 'Etes-vous sur de se déconnecter?', [
-              {text: 'OUI', onPress: () => dispatch(userLogout())},
+              {text: 'OUI', onPress: () => dispatch(userLogout1())},
               {text: 'Non', onPress: () => console.log('Exit canceled')},
             ]);
           }}

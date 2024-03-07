@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     marginTop: '20%',
-    height: '30%',
+    // height: '30%',
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 25,
     height: 40,
-    width: '70%',
+    width: '100%',
     margin: 15,
     paddingLeft: 15,
   },
@@ -67,6 +67,39 @@ const styles = StyleSheet.create({
   },
   textButtonLogin: {
     color: Colors.WHITE,
+  },
+  loginContainer: {
+    width: '80%',
+    alignItems: 'center',
+    padding: 10,
+    elevation: 10,
+    backgroundColor: '#e6e6e6',
+  },
+  textInput: {
+    height: 40,
+    width: '100%',
+    margin: 10,
+    backgroundColor: 'white',
+    borderColor: 'gray',
+    borderWidth: StyleSheet.hairlineWidth,
+    borderRadius: 10,
+  },
+  errorText: {
+    fontSize: 10,
+    color: 'red',
+    marginTop: -15,
+    marginBottom: 10,
+  },
+  inputStyle: {
+    borderWidth: 1,
+    borderRadius: 25,
+    paddingHorizontal: 10,
+    height: 45,
+  },
+  indicatorContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    margin: 10,
   },
 });
 

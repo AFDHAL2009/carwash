@@ -1,33 +1,38 @@
+import {configureStore, combineReducers} from '@reduxjs/toolkit';
+import {setupListeners} from '@reduxjs/toolkit/dist/query';
+import authSlice from './slices/authSlice';
+import {carwashApi} from './slices/apiSlice';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-//import storage from 'redux-persist/lib/storage';
-import {persistReducer, persistStore} from 'redux-persist';
-import thunk from 'redux-thunk';
-import {combineReducers, configureStore} from '@reduxjs/toolkit';
-import userSlice from './slices/userSlice';
-import authReducer from './auth/authSlice';
+import {
+  persistReducer,
+  persistStore,
+  FLUSH,
+  REHYDRATE,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+} from 'redux-persist';
 
 const persistConfig = {
   key: 'root',
   storage: AsyncStorage,
+  whitelist: ['auth', 'key2'], //Things you want to persist
+  blacklist: [carwashApi.reducerPath], //Things you don't want to persist
 };
-
-const appReducer = combineReducers({
-  /* your app’s top-level reducers */
-  auth: authReducer,
+export const rootReducers = combineReducers({
+  auth: authSlice,
+  [carwashApi.reducerPath]: carwashApi.reducer,
 });
-
-const rootReducer = (state, action) => {
-  if (action.type === 'user/logout') {
-    AsyncStorage.removeItem('persist:root');
-    return appReducer(undefined, action);
-  }
-
-  return appReducer(state, action);
-};
-
-const persistedReducer = persistReducer(persistConfig, rootReducer);
+const persistedReducer = persistReducer(persistConfig, rootReducers);
 export const store = configureStore({
   reducer: persistedReducer,
-  middleware: [thunk],
+  middleware: getDefaultMiddleware =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      },
+    }).concat(carwashApi.middleware),
 });
 export const persistor = persistStore(store);
+setupListeners(store.dispatch);

@@ -24,8 +24,7 @@ function App() {
   useEffect(() => {
     SplashScreen.hide();
   });
-  //const postUrl = process.env.BASE_URL;
-
+  const postUrl = process.env.BASE_URL;
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>

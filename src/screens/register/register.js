@@ -1,391 +1,697 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import axios from 'axios';
-import {registerUser} from '../../store/auth/authActions';
+
 import {
   View,
   SafeAreaView,
   Text,
   TouchableOpacity,
-  TextInput,
+  ScrollView,
+  StyleSheet,
 } from 'react-native';
 import {APP_ID, API} from '../../../utils/utils';
-import {blue100} from 'react-native-paper/lib/typescript/src/styles/themes/v2/colors';
-import {Button} from 'react-native-paper';
-
+import styles from './register.styles';
+//import {Button} from 'react-native-paper';
+import {Input, Button} from '@rneui/themed';
+import {TextInput} from 'react-native-paper';
+import {Dropdown} from 'react-native-element-dropdown';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import DateTimePicker from '@react-native-community/datetimepicker';
+import {Formik, useFormikContext} from 'formik';
+import * as yup from 'yup';
+import moment from 'moment/moment';
 const Register = () => {
   const {loading, userInfo, error, success} = useSelector(state => state.auth);
-  const [FirstName, setFistName] = useState('');
-  const [LastName, setLastName] = useState('');
-  const [Email, setEmail] = useState('');
-  const [Password, SetPassword] = useState('');
-  const [confirmPassword, SetConfirmPassword] = useState('');
-  const [phone, SetPhone] = useState('');
+  const [visiblePassword, setVisiblePassword] = useState(true);
+  const [visibleConfirmPassword, setVisibleConfirmPassword] = useState(true);
+  const [date, setDate] = useState(new Date(1598051730000));
+  const [mode, setMode] = useState('date');
+  const [show, setShow] = useState(false);
+  const [firstStep, setFirstStep] = useState(true);
   const dispatch = useDispatch();
-  const onChangeFirstName = value => {
-    console.log(value);
-    setFistName(value);
-  };
-  const onChangeLastName = value => {
-    console.log(value);
-    setLastName(value);
-  };
-  const onChangeEmail = value => {
-    console.log(value);
-    setEmail(value);
-  };
-
-  const onChangePassword = value => {
-    console.log(value);
-    SetPassword(value);
-  };
-  const onChangeConfirmPassword = value => {
-    console.log(value);
-    SetConfirmPassword(value);
-  };
-  const onChangePhone = value => {
-    console.log(value);
-    SetPhone(value);
-  };
-
-  const onPressRegister = () => {
-    const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-
-    if (
-      FirstName === '' ||
-      LastName === '' ||
-      Email === '' ||
-      Password === '' ||
-      phone === '' ||
-      confirmPassword === ''
-    ) {
-      alert('Please validate the fields');
-    } else if (!emailRegex.test(Email)) {
-      alert('Please enter a valid email');
-    } else if (Password !== confirmPassword) {
-      alert('Passwords not same');
-    } else {
-      console.log('sucess!');
-      let data = {
-        firstname: FirstName,
-        lastname: LastName,
-        email: Email,
-        password: Password,
-        phone: phone,
-      };
-      dispatch(registerUser(data));
-    }
-  };
-
-  /* useEffect(() => {
-    const config = {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    };
-
-    const data = {
-      email: 'bouha@gmail.com',
-      password: 'e1251',
-    };
-    const body = {
-      firstname: 'bouha1',
-      lastname: 'afdhal',
-      email: 'bouha@gmail.com',
-      password: 'e1251',
-      phone: '499552',
-    };
-
-    API.post('api/auth/signup', body, config)
-      .then(response => {
-        console.log(response.data);
-      })
-      .catch(error => console.log(error.response.data.message));
-  });*/
-
-  useEffect(() => {
-    // redirect user to login page if registration was successful
-    if (success) alert('success register');
-    // redirect authenticated user to profile screen
-    if (userInfo) alert('success get info');
-  }, [userInfo, success]);
-
+  const [value, setValue] = useState(null);
+  const [isFocus, setIsFocus] = useState(false);
+  const [valueCity, setValueCity] = useState(null);
+  const [isFocusCity, setIsFocusCity] = useState(false);
+  const [valueType, setValueType] = useState(null);
+  const [isFocusType, setIsFocusType] = useState(false);
+  const [valueModel, setValueModel] = useState(null);
+  const [isFocusModel, setIsFocusModel] = useState(false);
+  const [valueYear, setValueYear] = useState(null);
+  const [isFocusYear, setIsFocusYear] = useState(false);
   const DriverInfo = () => {
+    const onChangeDate = (event, selectedDate) => {
+      const currentDate = selectedDate;
+      setShow(false);
+      setDate(currentDate);
+      // setSearchValue(moment(currentDate).format('L').toString());
+      console.log(moment(currentDate).format('L').toString());
+    };
+    const passwordChange = () => {
+      setVisiblePassword(!visiblePassword);
+    };
+    const passwordConfirmChange = () => {
+      setVisibleConfirmPassword(!visibleConfirmPassword);
+    };
+    const signUpValidationSchema = yup.object().shape({
+      firstName: yup
+        .string()
+        .min(3, ({min}) => `firstName must be at least ${min} characters`)
+        .required('FirstName is required'),
+
+      lastName: yup
+        .string()
+        .min(3, ({min}) => `lastName must be at least ${min} characters`)
+        .required('lastName is required'),
+      birthDate: yup.string().required('Birthdate  is required'),
+      email: yup
+        .string()
+        .email('Please enter valid email')
+        .required('Email is required'),
+      password: yup
+        .string()
+        .matches(/\w*[a-z]\w*/, 'Password must have a small letter')
+        .matches(/\w*[A-Z]\w*/, 'Password must have a capital letter')
+        .matches(/\d/, 'Password must have a number')
+        .matches(
+          /[!@#$%^&*()\-_"=+{}; :,<.>]/,
+          'Password must have a special character',
+        )
+        .min(8, ({min}) => `Password must be at least ${min} characters`)
+        .required('Password is required'),
+      confirmPassword: yup
+        .string()
+        .oneOf([yup.ref('password')], 'Passwords do not match')
+        .required('Confirm password is required'),
+      phone: yup
+        .string()
+        .matches(/(06)(\d){8}\b/, 'Enter a valid phone number')
+        .required('Phone number is required'),
+    });
+
     return (
-      <View
-        style={{
-          flex: 1,
-          // backgroundColor: 'green',
-          width: '100%',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}>
+      <ScrollView style={{flex: 1, width: '100%'}}>
         <View
           style={{
+            flex: 1,
             justifyContent: 'center',
             alignItems: 'center',
-            alignContent: 'center',
+            width: '100%',
           }}>
-          <Text style={{fontFamily: 'Roboto-Bold', fontSize: 22}}>
-            Driver informations
-          </Text>
-        </View>
+          <Formik
+            validationSchema={signUpValidationSchema}
+            initialValues={{
+              firstName: '',
+              lastName: '',
+              birthDate: '',
+              email: '',
+              password: '',
+              confirmPassword: '',
+              phone: '',
+            }}
+            onSubmit={values => {
+              console.log(values);
+              setFirstStep(false);
+            }}>
+            {({
+              handleSubmit,
+              handleChange,
+              handleBlur,
+              setFieldValue,
+              values,
+              errors,
+              touched,
+              isValid,
+            }) => (
+              <>
+                <Input
+                  name="firstName"
+                  label="FirstName"
+                  placeholder="FirstName"
+                  containerStyle={{width: '90%', marginTop: 20}}
+                  labelStyle={{color: 'black', marginTop: -5}}
+                  errorStyle={{}}
+                  inputContainerStyle={styles.inputStyle}
+                  inputStyle={{
+                    fontSize: 16,
+                  }}
+                  autoCorrect={false}
+                  onChangeText={handleChange('firstName')}
+                  onBlur={handleBlur('firstName')}
+                  value={values.firstName}
+                />
+                {errors.firstName && touched.firstName && (
+                  <Text style={styles.errorText}>{errors.firstName}</Text>
+                )}
 
-        <View style={{margin: 10, width: '80%'}}>
-          <Text>Name</Text>
-          <TextInput
-            style={{
-              backgroundColor: 'gray',
-              height: 40,
-              width: '80%',
-              borderRadius: 25,
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}
-            placeholder="Name"
-          />
+                <Input
+                  name="lastName"
+                  label="LastName"
+                  placeholder="lastName"
+                  containerStyle={{width: '90%'}}
+                  labelStyle={{color: 'black', marginTop: -5}}
+                  errorStyle={{}}
+                  inputContainerStyle={styles.inputStyle}
+                  inputStyle={{
+                    fontSize: 16,
+                  }}
+                  autoCorrect={false}
+                  onChangeText={handleChange('lastName')}
+                  onBlur={handleBlur('lastName')}
+                  value={values.lastName}
+                />
+                {errors.lastName && touched.lastName && (
+                  <Text style={styles.errorText}>{errors.lastName}</Text>
+                )}
+                <Input
+                  name="birthDate"
+                  label="birthDate"
+                  placeholder="Date"
+                  containerStyle={{width: '90%'}}
+                  labelStyle={{color: 'black', marginTop: -5}}
+                  errorStyle={{}}
+                  inputContainerStyle={styles.inputStyle}
+                  inputStyle={{
+                    fontSize: 16,
+                  }}
+                  showSoftInputOnFocus={false}
+                  autoCorrect={false}
+                  onChangeText={handleChange('birthDate')}
+                  onBlur={handleBlur('birthDate')}
+                  value={values.birthDate}
+                  rightIcon={() => (
+                    <TouchableOpacity
+                      onPress={() => {
+                        setShow(true);
+                      }}>
+                      <Icon name={'calendar-range-outline'} size={25} />
+                    </TouchableOpacity>
+                  )}
+                />
+                {errors.birthDate && touched.birthDate && (
+                  <Text style={styles.errorText}>{errors.birthDate}</Text>
+                )}
+                {show && (
+                  <DateTimePicker
+                    testID="dateTimePicker"
+                    value={date}
+                    mode={'date'}
+                    is24Hour={true}
+                    onChange={(event, selectedDate) => {
+                      const currentDate = selectedDate;
+                      setShow(false);
+                      setDate(selectedDate);
+                      setFieldValue(
+                        'birthDate',
+                        moment(selectedDate).format('DD/MM/YYYY').toString(),
+                      );
+                      console.log(
+                        moment(currentDate).format('DD/MM/YYYY').toString(),
+                      );
+                    }}
+                  />
+                )}
+                <Input
+                  name="email"
+                  label="Email"
+                  placeholder="Email"
+                  containerStyle={{width: '90%'}}
+                  labelStyle={{color: 'black', marginTop: -5}}
+                  errorStyle={{}}
+                  inputContainerStyle={styles.inputStyle}
+                  inputStyle={{
+                    fontSize: 16,
+                  }}
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                  onChangeText={handleChange('email')}
+                  onBlur={handleBlur('email')}
+                  value={values.email}
+                />
+                {errors.email && touched.email && (
+                  <Text style={styles.errorText}>{errors.email}</Text>
+                )}
+                <Input
+                  name="password"
+                  label="Password"
+                  placeholder="Password"
+                  onChangeText={handleChange('password')}
+                  value={values.password}
+                  containerStyle={{width: '90%'}}
+                  labelStyle={{color: 'black', marginTop: -5}}
+                  errorStyle={{}}
+                  inputContainerStyle={styles.inputStyle}
+                  inputStyle={{
+                    fontSize: 16,
+                  }}
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                  rightIcon={() => (
+                    <TouchableOpacity
+                      onPress={() => {
+                        passwordChange();
+                      }}>
+                      <Icon
+                        name={visiblePassword ? 'eye-off' : 'eye'}
+                        size={25}
+                      />
+                    </TouchableOpacity>
+                  )}
+                  maxLength={27}
+                  secureTextEntry={visiblePassword}
+                />
+                {errors.password && touched.password && (
+                  <Text style={styles.errorText}>{errors.password}</Text>
+                )}
+                <Input
+                  name="confirmPassword"
+                  label={'Confirm password'}
+                  placeholder=" Confirm password"
+                  onChangeText={handleChange('confirmPassword')}
+                  onBlur={handleBlur('confirmPassword')}
+                  value={values.confirmPassword}
+                  containerStyle={{width: '90%'}}
+                  labelStyle={{color: 'black', marginTop: -5}}
+                  errorStyle={{}}
+                  inputContainerStyle={styles.inputStyle}
+                  inputStyle={{
+                    fontSize: 16,
+                  }}
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                  rightIcon={() => (
+                    <TouchableOpacity
+                      onPress={() => {
+                        passwordConfirmChange();
+                      }}>
+                      <Icon
+                        name={visibleConfirmPassword ? 'eye-off' : 'eye'}
+                        size={25}
+                      />
+                    </TouchableOpacity>
+                  )}
+                  maxLength={27}
+                  secureTextEntry={visibleConfirmPassword}
+                />
+                {errors.confirmPassword && touched.confirmPassword && (
+                  <Text style={styles.errorText}>{errors.confirmPassword}</Text>
+                )}
+                <Input
+                  name="phone"
+                  label="Phone"
+                  placeholder="Phone"
+                  containerStyle={{width: '90%'}}
+                  labelStyle={{color: 'black', marginTop: -5}}
+                  errorStyle={{}}
+                  inputContainerStyle={styles.inputStyle}
+                  inputStyle={{
+                    fontSize: 16,
+                  }}
+                  keyboardType="numeric"
+                  onChangeText={handleChange('phone')}
+                  onBlur={handleBlur('phone')}
+                  value={values.phone}
+                />
+                {errors.phone && touched.phone && (
+                  <Text style={styles.errorText}>{errors.phone}</Text>
+                )}
+                <TouchableOpacity
+                  onPress={handleSubmit}
+                  style={{
+                    backgroundColor: 'red',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    width: '50%',
+                    height: 35,
+                    borderRadius: 25,
+                    marginVertical: 15,
+                  }}>
+                  <Text>Next</Text>
+                </TouchableOpacity>
+              </>
+            )}
+          </Formik>
+          <TouchableOpacity onPress={() => setShow(true)}>
+            <Text>open</Text>
+          </TouchableOpacity>
         </View>
-        <View style={{margin: 5, width: '80%'}}>
-          <Text>LastName</Text>
-          <TextInput
-            style={{
-              backgroundColor: 'gray',
-              height: 40,
-              width: '80%',
-              borderRadius: 25,
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}
-            placeholder="LastName"
-          />
-        </View>
-        <View style={{margin: 5, width: '80%'}}>
-          <Text>Birthday</Text>
-          <TextInput
-            style={{
-              backgroundColor: 'gray',
-              height: 40,
-              width: '80%',
-              borderRadius: 25,
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}
-            placeholder="Birthday"
-          />
-        </View>
-        <View style={{margin: 5, width: '80%'}}>
-          <Text>Email</Text>
-          <TextInput
-            style={{
-              backgroundColor: 'gray',
-              height: 40,
-              width: '80%',
-              borderRadius: 25,
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}
-            placeholder="Email"
-          />
-        </View>
-        <View style={{margin: 5, width: '80%'}}>
-          <Text>Password</Text>
-          <TextInput
-            style={{
-              backgroundColor: 'gray',
-              height: 40,
-              width: '80%',
-              borderRadius: 25,
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}
-            placeholder="Password"
-          />
-        </View>
-        <View style={{margin: 5, width: '80%'}}>
-          <Text>Phone</Text>
-          <TextInput
-            style={{
-              backgroundColor: 'gray',
-              height: 40,
-              width: '80%',
-              borderRadius: 25,
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}
-            placeholder="Phone"
-          />
-        </View>
-        <View style={{margin: 5, width: '80%'}}>
-          <Text>City</Text>
-          <TextInput
-            style={{
-              backgroundColor: 'gray',
-              height: 40,
-              width: '80%',
-              borderRadius: 25,
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}
-            placeholder="City"
-          />
-        </View>
-        <TouchableOpacity
-          style={{
-            backgroundColor: 'red',
-            justifyContent: 'center',
-            alignItems: 'center',
-            width: '50%',
-            height: 35,
-            borderRadius: 25,
-            marginVertical: 15,
-          }}>
-          <Text>Next</Text>
-        </TouchableOpacity>
-      </View>
+      </ScrollView>
     );
   };
   const VehicleInfo = () => {
+    const vehicleValidationSchema = yup.object().shape({
+      city: yup.string().required('City is required'),
+      type: yup.string().required('Type is required'),
+      model: yup.string().required('Model is required'),
+      year: yup.string().required('Year is required'),
+      registerNumber: yup.string().required('Register number is required'),
+    });
+
+    const renderLabelCity = () => {
+      if (valueCity || isFocusCity) {
+        return (
+          <Text style={[styles1.label, isFocusCity && {color: 'blue'}]}>
+            City
+          </Text>
+        );
+      }
+
+      return null;
+    };
+    const renderLabelType = () => {
+      if (valueType || isFocusType) {
+        return (
+          <Text style={[styles1.label, isFocusType && {color: 'blue'}]}>
+            Vehicle type
+          </Text>
+        );
+      }
+
+      return null;
+    };
+    const renderLabelModel = () => {
+      if (valueModel || isFocusModel) {
+        return (
+          <Text style={[styles1.label, isFocusModel && {color: 'blue'}]}>
+            Vehicle model
+          </Text>
+        );
+      }
+
+      return null;
+    };
+    const renderLabelYear = () => {
+      if (valueYear || isFocusYear) {
+        return (
+          <Text style={[styles1.label, isFocusYear && {color: 'blue'}]}>
+            Manufacture year
+          </Text>
+        );
+      }
+
+      return null;
+    };
     return (
-      <View style={{backgroundColor: 'blue'}}>
-        <Text>Vehicle Type</Text>
-        <Text>vehicle Model</Text>
-        <Text>manufacture Year</Text>
-        <Text>Registration Number</Text>
-      </View>
+      <ScrollView style={{flex: 1, width: '100%'}}>
+        <View
+          style={{
+            flex: 1,
+
+            justifyContent: 'center',
+            alignItems: 'center',
+            width: '100%',
+          }}>
+          <Formik
+            validationSchema={vehicleValidationSchema}
+            initialValues={{
+              city: '',
+              type: '',
+              model: '',
+              year: '',
+              registerNumber: '',
+            }}
+            onSubmit={values => {
+              console.log(values);
+              // setFirstStep(false);
+            }}>
+            {({
+              handleSubmit,
+              handleChange,
+              handleBlur,
+              setFieldValue,
+              values,
+              errors,
+              touched,
+              isValid,
+            }) => (
+              <>
+                <View style={styles1.container}>
+                  {renderLabelCity()}
+                  <Dropdown
+                    style={[
+                      styles1.dropdown,
+                      isFocusCity && {borderColor: 'blue'},
+                    ]}
+                    placeholderStyle={styles1.placeholderStyle}
+                    selectedTextStyle={styles1.selectedTextStyle}
+                    inputSearchStyle={styles1.inputSearchStyle}
+                    iconStyle={styles1.iconStyle}
+                    data={[
+                      {label: 'Paris', value: 'Paris'},
+                      {label: 'Lyon', value: 'Lyon'},
+                      {label: 'Géneve', value: 'Géneve'},
+                    ]}
+                    // search
+                    maxHeight={300}
+                    labelField="label"
+                    valueField="value"
+                    placeholder={!isFocusCity ? 'City' : '...'}
+                    value={values.city}
+                    onChangeText={handleChange('city')}
+                    onFocus={() => setIsFocusCity(true)}
+                    onBlur={() => setIsFocusCity(false)}
+                    onChange={item => {
+                      setFieldValue('city', item.value);
+                      setValueCity(item.value);
+                      setIsFocusCity(false);
+                    }}
+                  />
+                </View>
+                {errors.city && (
+                  <Text style={styles.errorText}>{errors.city}</Text>
+                )}
+                <View style={styles1.container}>
+                  {renderLabelType()}
+                  <Dropdown
+                    style={[
+                      styles1.dropdown,
+                      isFocusType && {borderColor: 'blue'},
+                    ]}
+                    placeholderStyle={styles1.placeholderStyle}
+                    selectedTextStyle={styles1.selectedTextStyle}
+                    inputSearchStyle={styles1.inputSearchStyle}
+                    iconStyle={styles1.iconStyle}
+                    data={[
+                      {label: 'Van', value: 'Van'},
+                      {label: 'Break', value: 'Break'},
+                      {label: 'Eco', value: 'Eco'},
+                      {label: 'Prestige', value: 'Prestige'},
+                    ]}
+                    // search
+                    maxHeight={300}
+                    labelField="label"
+                    valueField="value"
+                    placeholder={!isFocusType ? 'Type' : '...'}
+                    value={values.type}
+                    onChangeText={handleChange('type')}
+                    onFocus={() => setIsFocusType(true)}
+                    onBlur={() => setIsFocusType(false)}
+                    onChange={item => {
+                      setFieldValue('type', item.value);
+                      setValueType(item.value);
+                      setIsFocusType(false);
+                    }}
+                  />
+                </View>
+                {errors.type && (
+                  <Text style={styles.errorText}>{errors.type}</Text>
+                )}
+                <View style={styles1.container}>
+                  {renderLabelModel()}
+                  <Dropdown
+                    style={[
+                      styles1.dropdown,
+                      isFocusModel && {borderColor: 'blue'},
+                    ]}
+                    placeholderStyle={styles1.placeholderStyle}
+                    selectedTextStyle={styles1.selectedTextStyle}
+                    inputSearchStyle={styles1.inputSearchStyle}
+                    iconStyle={styles1.iconStyle}
+                    data={[
+                      {
+                        label: 'Audi',
+                        value: 'Audi',
+                      },
+                      {label: 'Honda', value: 'Honda'},
+                      {label: 'Lucid', value: 'Lucid'},
+                      {label: 'Nissan', value: 'Nissan'},
+                    ]}
+                    // search
+                    maxHeight={300}
+                    labelField="label"
+                    valueField="value"
+                    placeholder={!isFocusModel ? 'Model' : '...'}
+                    value={values.model}
+                    onChangeText={handleChange('model')}
+                    onFocus={() => setIsFocusModel(true)}
+                    onBlur={() => setIsFocusModel(false)}
+                    onChange={item => {
+                      setFieldValue('model', item.value);
+                      setValueModel(item.value);
+                      setIsFocusModel(false);
+                    }}
+                  />
+                </View>
+                {errors.model && (
+                  <Text style={styles.errorText}>{errors.model}</Text>
+                )}
+
+                <View style={styles1.container}>
+                  {renderLabelYear()}
+                  <Dropdown
+                    style={[
+                      styles1.dropdown,
+                      isFocusYear && {borderColor: 'blue'},
+                    ]}
+                    placeholderStyle={styles1.placeholderStyle}
+                    selectedTextStyle={styles1.selectedTextStyle}
+                    inputSearchStyle={styles1.inputSearchStyle}
+                    iconStyle={styles1.iconStyle}
+                    data={[
+                      {label: '2023', value: '2023'},
+                      {label: '2022', value: '2022'},
+                      {label: '2021', value: '2021'},
+                      {label: '2020', value: '2020'},
+                      {label: '2019', value: '2019'},
+                      {label: '2018', value: '2018'},
+                      {label: '2017', value: '2017'},
+                    ]}
+                    // search
+                    maxHeight={300}
+                    labelField="label"
+                    valueField="value"
+                    placeholder={!isFocusYear ? 'Year' : '...'}
+                    value={values.year}
+                    onChangeText={handleChange('year')}
+                    onFocus={() => setIsFocusYear(true)}
+                    onBlur={() => setIsFocusYear(false)}
+                    onChange={item => {
+                      setFieldValue('year', item.value);
+                      setValueYear(item.value);
+                      setIsFocusYear(false);
+                    }}
+                  />
+                </View>
+                {errors.year && (
+                  <Text style={styles.errorText}>{errors.year}</Text>
+                )}
+                <View style={styles1.container}>
+                  <TextInput
+                    name="registerNumber"
+                    label="RegisterNumber"
+                    mode="outlined"
+                    placeholder="RegisterNumber"
+                    outlineColor={'gray'}
+                    activeOutlineColor={'gray'}
+                    outlineStyle={{
+                      borderColor: 'gray',
+                      borderWidth: 0.5,
+                      borderRadius: 8,
+                    }}
+                    style={{
+                      width: '80%',
+                      height: 50,
+                      fontSize: 14,
+                      backgroundColor: 'white',
+                    }}
+                    onChangeText={handleChange('registerNumber')}
+                    onBlur={handleBlur('registerNumber')}
+                    value={values.registerNumber}
+                  />
+                </View>
+                {errors.registerNumber && (
+                  <Text style={styles.errorText}>{errors.registerNumber}</Text>
+                )}
+                <TouchableOpacity
+                  onPress={handleSubmit}
+                  style={{
+                    backgroundColor: '#7a42f4',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    width: '50%',
+                    height: 35,
+                    borderRadius: 25,
+                    marginVertical: 15,
+                  }}>
+                  <Text style={{color: 'white'}}>Register</Text>
+                </TouchableOpacity>
+              </>
+            )}
+          </Formik>
+        </View>
+      </ScrollView>
     );
   };
   return (
-    <View style={{flex: 1, alignItems: 'center'}}>
-      <View style={{margin: 20}}>
-        <Text style={{fontSize: 22, color: 'black'}}>Register</Text>
-      </View>
-      {DriverInfo()}
-      {/* <View style={{margin: 10}}>
-        <Text style={{fontSize: 20, color: 'black'}}>
-          Enter your data to register
-        </Text>
-      </View>
+    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
       <View
         style={{
-          margin: 40,
-          width: '90%',
+          justifyContent: 'center',
           alignItems: 'center',
+          alignContent: 'center',
+          margin: '2%',
         }}>
-        <TextInput
-          style={{
-            borderColor: '#7a42f4',
-            borderWidth: 1,
-            borderRadius: 25,
-            height: 40,
-            width: '80%',
-            margin: 15,
-            paddingLeft: 15,
-          }}
-          placeholder="FistName"
-          placeholderTextColor={'gray'}
-          autoCapitalize="none"
-          keyboardType="default"
-          onChangeText={text => onChangeFirstName(text)}
-        />
-        <TextInput
-          style={{
-            borderColor: '#7a42f4',
-            borderWidth: 1,
-            borderRadius: 25,
-            height: 40,
-            width: '80%',
-            margin: 15,
-            paddingLeft: 15,
-          }}
-          placeholder="LastName"
-          placeholderTextColor={'gray'}
-          autoCapitalize="none"
-          keyboardType="default"
-          onChangeText={text => onChangeLastName(text)}
-        />
-        <TextInput
-          style={{
-            borderColor: '#7a42f4',
-            borderWidth: 1,
-            borderRadius: 25,
-            height: 40,
-            width: '80%',
-            margin: 15,
-            paddingLeft: 15,
-          }}
-          placeholder="E-mail"
-          placeholderTextColor={'gray'}
-          autoCapitalize="none"
-          keyboardType="email-address"
-          onChangeText={text => onChangeEmail(text)}
-        />
-        <TextInput
-          style={{
-            borderColor: '#7a42f4',
-            borderWidth: 1,
-            borderRadius: 25,
-            height: 40,
-            width: '80%',
-            margin: 15,
-            paddingLeft: 15,
-          }}
-          placeholder="Password"
-          secureTextEntry={true}
-          placeholderTextColor={'gray'}
-          autoCapitalize="none"
-          onChangeText={text => onChangePassword(text)}
-        />
-        <TextInput
-          style={{
-            borderColor: '#7a42f4',
-            borderWidth: 1,
-            borderRadius: 25,
-            height: 40,
-            width: '80%',
-            margin: 15,
-            paddingLeft: 15,
-          }}
-          placeholder="Confirm password"
-          secureTextEntry={true}
-          placeholderTextColor={'gray'}
-          autoCapitalize="none"
-          onChangeText={text => onChangeConfirmPassword(text)}
-        />
-        <TextInput
-          style={{
-            borderColor: '#7a42f4',
-            borderWidth: 1,
-            borderRadius: 25,
-            height: 40,
-            width: '80%',
-            margin: 15,
-            paddingLeft: 15,
-          }}
-          keyboardType="phone-pad"
-          placeholder="Phone number"
-          placeholderTextColor={'gray'}
-          autoCapitalize="none"
-          onChangeText={text => onChangePhone(text)}
-        />
+        <Text style={{fontFamily: 'Roboto-Bold', fontSize: 22}}>
+          {firstStep ? 'Driver informations' : 'Vehicle informations'}
+        </Text>
       </View>
 
-      <View style={{flex: 1, width: '50%'}}>
-        <TouchableOpacity
-          onPress={onPressRegister}
-          style={{
-            backgroundColor: '#7a42f4',
-            padding: 10,
-            margin: 10,
-            width: '80%',
-            height: 40,
-            alignItems: 'center',
-            borderRadius: 25,
-            alignSelf: 'center',
-          }}>
-          <Text style={{color: 'white'}}>Signup</Text>
-        </TouchableOpacity>
-      </View>**/}
+      {firstStep ? DriverInfo() : VehicleInfo()}
     </View>
   );
 };
 export default Register;
+
+const styles1 = StyleSheet.create({
+  container: {
+    // backgroundColor: 'white',
+    padding: 16,
+    // margin: 40,
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  dropdown: {
+    height: 50,
+    borderColor: 'gray',
+    borderWidth: 0.5,
+    borderRadius: 8,
+    paddingHorizontal: 8,
+    width: '80%',
+    backgroundColor: 'white',
+  },
+  icon: {
+    marginRight: 5,
+  },
+  label: {
+    position: 'absolute',
+    backgroundColor: 'white',
+    left: 22,
+    top: 14,
+    zIndex: 999,
+    paddingLeft: 10,
+    fontSize: 14,
+    marginLeft: 40,
+  },
+  placeholderStyle: {
+    fontSize: 16,
+  },
+  selectedTextStyle: {
+    fontSize: 16,
+  },
+  iconStyle: {
+    width: 20,
+    height: 20,
+  },
+  inputSearchStyle: {
+    height: 40,
+    fontSize: 16,
+  },
+  errorText: {
+    fontSize: 10,
+    textAlign: 'center',
+    color: 'red',
+    marginVertical: 5,
+  },
+});

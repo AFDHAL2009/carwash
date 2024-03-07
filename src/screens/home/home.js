@@ -13,6 +13,12 @@ import {useDispatch, useSelector} from 'react-redux';
 import {TextInput} from 'react-native-paper';
 import {FlatList} from 'react-native-gesture-handler';
 import moment from 'moment/moment';
+import {
+  useAuthMutation,
+  useGetMissionsQuery,
+  useGetProfileMutation,
+} from '../../store/slices/apiSlice';
+
 const data = [
   {label: 'Réference', value: '1'},
   {label: 'Numéro client', value: '2'},
@@ -23,10 +29,11 @@ const source_data = [
   {id: 2, date: '11/10/2021', reference: 'ND151480', phone: '0622112525'},
   {id: 3, date: '11/10/2022', reference: 'ND151920', phone: '0622112524'},
 ];
+
 const Home = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [notif, setNotif] = useState({});
-  const {loading, userInfo, error} = useSelector(state => state.auth);
+  const {userDetails} = useSelector(state => state.auth);
 
   const [searchValue, setSearchValue] = useState('');
   const [searchBy, setSearchBy] = useState(null);
@@ -34,7 +41,9 @@ const Home = () => {
   const [date, setDate] = useState(new Date(1598051730000));
   const [mode, setMode] = useState('date');
   const [show, setShow] = useState(false);
+  const {data: getMission} = useGetMissionsQuery();
 
+  //
   onesignalConfig();
 
   //Method for handling notifications received while app in foreground
@@ -139,7 +148,7 @@ const Home = () => {
   };
 
   useEffect(() => {
-    alert(JSON.stringify(userInfo));
+    alert(JSON.stringify(userDetails));
     //setMissions(source_data);
     // Method for listening for notification clicks
   }, []);
@@ -265,6 +274,13 @@ const Home = () => {
           keyExtractor={element => element.id}
         />
       </View>
+      <TouchableOpacity
+        style={{margin: 20}}
+        onPress={() =>
+          console.log('datamission=' + JSON.stringify(getMission))
+        }>
+        <Text>get mission</Text>
+      </TouchableOpacity>
     </SafeAreaView>
   );
 };
