@@ -5,6 +5,7 @@ import axios from 'axios';
 import {
   View,
   SafeAreaView,
+  ActivityIndicator,
   Text,
   TouchableOpacity,
   ScrollView,
@@ -21,6 +22,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import {Formik, useFormikContext} from 'formik';
 import * as yup from 'yup';
 import moment from 'moment/moment';
+import {useRegisterMutation} from '../../store/slices/apiSlice';
 const Register = () => {
   const {loading, userInfo, error, success} = useSelector(state => state.auth);
   const [visiblePassword, setVisiblePassword] = useState(true);
@@ -40,6 +42,31 @@ const Register = () => {
   const [isFocusModel, setIsFocusModel] = useState(false);
   const [valueYear, setValueYear] = useState(null);
   const [isFocusYear, setIsFocusYear] = useState(false);
+
+  const [
+    register,
+    {
+      isLoading: registerIsLoading,
+      isError: registerIsError,
+      isSuccess: registerIsSuccess,
+      data: registerData,
+      error: registerError,
+    },
+  ] = useRegisterMutation();
+
+  useEffect(() => {
+    if (registerIsSuccess) {
+      alert('success');
+    }
+    if (registerError) {
+      alert(registerError.data?.message);
+    }
+  }, [registerIsSuccess, registerIsError]);
+
+  const handleRegister = data => {
+    register(data);
+  };
+
   const DriverInfo = () => {
     const onChangeDate = (event, selectedDate) => {
       const currentDate = selectedDate;
@@ -342,10 +369,10 @@ const Register = () => {
   const VehicleInfo = () => {
     const vehicleValidationSchema = yup.object().shape({
       city: yup.string().required('City is required'),
-      type: yup.string().required('Type is required'),
-      model: yup.string().required('Model is required'),
-      year: yup.string().required('Year is required'),
-      registerNumber: yup.string().required('Register number is required'),
+      vehicleType: yup.string().required('Type is required'),
+      vehicleModel: yup.string().required('Model is required'),
+      manufactureYear: yup.string().required('Year is required'),
+      registrationNumber: yup.string().required('Register number is required'),
     });
 
     const renderLabelCity = () => {
@@ -397,7 +424,6 @@ const Register = () => {
         <View
           style={{
             flex: 1,
-
             justifyContent: 'center',
             alignItems: 'center',
             width: '100%',
@@ -406,13 +432,14 @@ const Register = () => {
             validationSchema={vehicleValidationSchema}
             initialValues={{
               city: '',
-              type: '',
-              model: '',
-              year: '',
-              registerNumber: '',
+              vehicleType: '',
+              vehicleModel: '',
+              manufactureYear: '',
+              registrationNumber: '',
             }}
             onSubmit={values => {
               console.log(values);
+              handleRegister(values);
               // setFirstStep(false);
             }}>
             {({
@@ -483,19 +510,19 @@ const Register = () => {
                     labelField="label"
                     valueField="value"
                     placeholder={!isFocusType ? 'Type' : '...'}
-                    value={values.type}
-                    onChangeText={handleChange('type')}
+                    value={values.vehicleType}
+                    onChangeText={handleChange('vehicleType')}
                     onFocus={() => setIsFocusType(true)}
                     onBlur={() => setIsFocusType(false)}
                     onChange={item => {
-                      setFieldValue('type', item.value);
+                      setFieldValue('vehicleType', item.value);
                       setValueType(item.value);
                       setIsFocusType(false);
                     }}
                   />
                 </View>
-                {errors.type && (
-                  <Text style={styles.errorText}>{errors.type}</Text>
+                {errors.vehicleType && (
+                  <Text style={styles.errorText}>{errors.vehicleType}</Text>
                 )}
                 <View style={styles1.container}>
                   {renderLabelModel()}
@@ -522,19 +549,19 @@ const Register = () => {
                     labelField="label"
                     valueField="value"
                     placeholder={!isFocusModel ? 'Model' : '...'}
-                    value={values.model}
-                    onChangeText={handleChange('model')}
+                    value={values.vehicleModel}
+                    onChangeText={handleChange('vehicleModel')}
                     onFocus={() => setIsFocusModel(true)}
                     onBlur={() => setIsFocusModel(false)}
                     onChange={item => {
-                      setFieldValue('model', item.value);
+                      setFieldValue('vehicleModel', item.value);
                       setValueModel(item.value);
                       setIsFocusModel(false);
                     }}
                   />
                 </View>
-                {errors.model && (
-                  <Text style={styles.errorText}>{errors.model}</Text>
+                {errors.vehicleModel && (
+                  <Text style={styles.errorText}>{errors.vehicleModel}</Text>
                 )}
 
                 <View style={styles1.container}>
@@ -562,26 +589,26 @@ const Register = () => {
                     labelField="label"
                     valueField="value"
                     placeholder={!isFocusYear ? 'Year' : '...'}
-                    value={values.year}
-                    onChangeText={handleChange('year')}
+                    value={values.manufactureYear}
+                    onChangeText={handleChange('manufactureYear')}
                     onFocus={() => setIsFocusYear(true)}
                     onBlur={() => setIsFocusYear(false)}
                     onChange={item => {
-                      setFieldValue('year', item.value);
+                      setFieldValue('manufactureYear', item.value);
                       setValueYear(item.value);
                       setIsFocusYear(false);
                     }}
                   />
                 </View>
-                {errors.year && (
-                  <Text style={styles.errorText}>{errors.year}</Text>
+                {errors.manufactureYear && (
+                  <Text style={styles.errorText}>{errors.manufactureYear}</Text>
                 )}
                 <View style={styles1.container}>
                   <TextInput
-                    name="registerNumber"
-                    label="RegisterNumber"
+                    name="registrationNumber"
+                    label="RegistrationNumber"
                     mode="outlined"
-                    placeholder="RegisterNumber"
+                    placeholder="RegistrationNumber"
                     outlineColor={'gray'}
                     activeOutlineColor={'gray'}
                     outlineStyle={{
@@ -595,13 +622,15 @@ const Register = () => {
                       fontSize: 14,
                       backgroundColor: 'white',
                     }}
-                    onChangeText={handleChange('registerNumber')}
-                    onBlur={handleBlur('registerNumber')}
-                    value={values.registerNumber}
+                    onChangeText={handleChange('registrationNumber')}
+                    onBlur={handleBlur('registrationNumber')}
+                    value={values.registrationNumber}
                   />
                 </View>
-                {errors.registerNumber && (
-                  <Text style={styles.errorText}>{errors.registerNumber}</Text>
+                {errors.registrationNumber && (
+                  <Text style={styles.errorText}>
+                    {errors.registrationNumber}
+                  </Text>
                 )}
                 <TouchableOpacity
                   onPress={handleSubmit}
@@ -619,6 +648,16 @@ const Register = () => {
               </>
             )}
           </Formik>
+          {registerIsLoading ? (
+            <View
+              style={{
+                justifyContent: 'center',
+                alignItems: 'center',
+                margin: 15,
+              }}>
+              <ActivityIndicator color={'#7a42f4'} />
+            </View>
+          ) : null}
         </View>
       </ScrollView>
     );
