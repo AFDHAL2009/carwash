@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
   ScrollView,
   StyleSheet,
+  Platform,
 } from 'react-native';
 import {APP_ID, API} from '../../../utils/utils';
 import styles from './register.styles';
@@ -669,7 +670,7 @@ const Register = () => {
           justifyContent: 'center',
           alignItems: 'center',
           alignContent: 'center',
-          margin: '2%',
+          margin:'15%',
         }}>
         <Text style={{fontFamily: 'Roboto-Bold', fontSize: 22}}>
           {firstStep ? 'Driver informations' : 'Vehicle informations'}
